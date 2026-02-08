@@ -1,0 +1,16 @@
+export const SHORTCUTS = [
+  { keys: "Cmd/Ctrl+K", description: "Open command palette" },
+  { keys: "g m", description: "Go to Mission" },
+  { keys: "g s", description: "Go to Summary" },
+  { keys: "g t", description: "Go to Tasks" },
+  { keys: "g c", description: "Go to Comms" },
+  { keys: "g a", description: "Go to Artifacts" },
+  { keys: "g n", description: "Go to Analytics" },
+  { keys: "g u", description: "Go to Setup" },
+  { keys: "g e", description: "Go to Settings" },
+  { keys: "g h", description: "Go to Help" },
+  { keys: "/", description: "Focus page search" },
+  { keys: "[", description: "Previous workspace" },
+  { keys: "]", description: "Next workspace" },
+  { keys: "t", description: "Toggle theme" },
+];

@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "1.0",
+  "workspace": {
+    "id": "sample-workspace",
+    "title": "Legal team agents to handle contracts",
+    "slug": "legal-team-agents-to-handle-contracts",
+    "createdAt": "2026-02-06T00:00:00.000Z",
+    "templateId": "ai-generated"
+  },
+  "team": {
+    "name": "agent-squad-team",
+    "maxAgents": 8
+  },
+  "dashboard": {
+    "title": "Agent Squad",
+    "subtitle": "Mission-driven multi-agent dashboard",
+    "nav": ["mission", "tasks", "comms", "artifacts", "analytics"],
+    "workflowLanes": [
+      { "id": "intake", "label": "Intake", "description": "Capture requirements and constraints" },
+      { "id": "draft", "label": "Draft", "description": "Draft legal materials" },
+      { "id": "review", "label": "Review", "description": "Assess risk and compliance" },
+      { "id": "redline", "label": "Redline", "description": "Negotiate and revise" },
+      { "id": "finalize", "label": "Finalize", "description": "Package and deliver" }
+    ]
+  },
+  "groups": [
+    { "id": "lead", "label": "Lead", "description": "Mission coordination", "color": "#60a5fa" },
+    { "id": "legal", "label": "Legal Specialists", "description": "Core contract specialists", "color": "#22c55e" },
+    { "id": "support", "label": "Support", "description": "Evidence and packaging", "color": "#f59e0b" }
+  ],
+  "agents": [
+    {
+      "id": "legal-coordinator",
+      "displayName": "Legal Coordinator",
+      "emoji": "⚖️",
+      "color": "#3b82f6",
+      "groupId": "lead",
+      "roleSummary": "Coordinates legal workflow and final sign-off.",
+      "promptFile": "agents/legal-coordinator.md",
+      "active": true
+    },
+    {
+      "id": "contract-drafter",
+      "displayName": "Contract Drafter",
+      "emoji": "📝",
+      "color": "#14b8a6",
+      "groupId": "legal",
+      "roleSummary": "Drafts core contract terms and structures.",
+      "promptFile": "agents/contract-drafter.md",
+      "active": true
+    },
+    {
+      "id": "clause-risk-reviewer",
+      "displayName": "Clause Risk Reviewer",
+      "emoji": "🔍",
+      "color": "#f97316",
+      "groupId": "legal",
+      "roleSummary": "Reviews clauses for legal and operational risk.",
+      "promptFile": "agents/clause-risk-reviewer.md",
+      "active": true
+    },
+    {
+      "id": "compliance-checker",
+      "displayName": "Compliance Checker",
+      "emoji": "✅",
+      "color": "#22c55e",
+      "groupId": "legal",
+      "roleSummary": "Validates policy and regulatory compliance.",
+      "promptFile": "agents/compliance-checker.md",
+      "active": true
+    },
+    {
+      "id": "negotiation-strategist",
+      "displayName": "Negotiation Strategist",
+      "emoji": "🤝",
+      "color": "#a855f7",
+      "groupId": "support",
+      "roleSummary": "Builds negotiation and fallback options.",
+      "promptFile": "agents/negotiation-strategist.md",
+      "active": true
+    },
+    {
+      "id": "evidence-librarian",
+      "displayName": "Evidence Librarian",
+      "emoji": "🗂️",
+      "color": "#eab308",
+      "groupId": "support",
+      "roleSummary": "Maintains evidence, references, and final package structure.",
+      "promptFile": "agents/evidence-librarian.md",
+      "active": true
+    }
+  ],
+  "modules": [
+    { "id": "intake-brief", "label": "Intake Brief", "emoji": "🧭", "description": "Mission requirements", "path": "artifacts/intake-brief" },
+    { "id": "draft-contracts", "label": "Draft Contracts", "emoji": "📄", "description": "Contract drafts", "path": "artifacts/draft-contracts" },
+    { "id": "risk-matrix", "label": "Risk Matrix", "emoji": "⚠️", "description": "Risk register", "path": "artifacts/risk-matrix" },
+    { "id": "compliance-notes", "label": "Compliance Notes", "emoji": "✅", "description": "Compliance findings", "path": "artifacts/compliance-notes" },
+    { "id": "negotiation-pack", "label": "Negotiation Pack", "emoji": "🤝", "description": "Negotiation strategy", "path": "artifacts/negotiation-pack" },
+    { "id": "final-package", "label": "Final Package", "emoji": "📦", "description": "Delivery package", "path": "artifacts/final-package" }
+  ],
+  "workflowLanes": [
+    { "id": "intake", "label": "Intake", "description": "Capture requirements and constraints" },
+    { "id": "draft", "label": "Draft", "description": "Draft legal materials" },
+    { "id": "review", "label": "Review", "description": "Assess risk and compliance" },
+    { "id": "redline", "label": "Redline", "description": "Negotiate and revise" },
+    { "id": "finalize", "label": "Finalize", "description": "Package and deliver" }
+  ],
+  "comms": {
+    "file": "~/.claude/teams/{teamName}/team-feed.jsonl",
+    "types": ["update", "insight", "blocker"]
+  }
+}

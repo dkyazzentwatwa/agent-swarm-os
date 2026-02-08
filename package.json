@@ -1,0 +1,30 @@
+{
+  "name": "agent-swarm-os",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agent Swarm OS - Tauri desktop app for Claude Agent Teams mission orchestration",
+  "scripts": {
+    "start": "node scripts/start.js",
+    "init": "node scripts/init-workflow.js",
+    "reset": "bash scripts/reset-workflow.sh",
+    "dashboard:backend": "cd dashboard/backend && npm run dev",
+    "dashboard:frontend": "cd dashboard/frontend && npm run dev",
+    "dashboard": "npx concurrently \"npm run dashboard:backend\" \"npm run dashboard:frontend\"",
+    "dashboard:demo": "DEMO_MODE=true npm run dashboard",
+    "build": "cd dashboard/frontend && npm run build",
+    "tauri:dev": "cd dashboard/frontend && npm run tauri:dev",
+    "tauri:build": "cd dashboard/frontend && npm run tauri:build"
+  },
+  "keywords": [
+    "claude",
+    "agent-teams",
+    "multi-agent",
+    "dashboard",
+    "workflow-builder"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "^1.0.0",
+    "ajv": "^8.17.1"
+  }
+}

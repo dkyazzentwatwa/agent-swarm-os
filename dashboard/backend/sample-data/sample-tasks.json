@@ -1,0 +1,134 @@
+[
+  {
+    "id": "task-001",
+    "subject": "Analyze source material: LLM context windows",
+    "description": "Read the raw idea and produce the strategy brief with platform assignments.",
+    "status": "completed",
+    "assignee": "content-strategist",
+    "blockedBy": [],
+    "blocks": ["task-002", "task-003", "task-004", "task-005", "task-006"],
+    "createdAt": "2026-02-03T09:00:00Z",
+    "completedAt": "2026-02-03T10:30:00Z"
+  },
+  {
+    "id": "task-002",
+    "subject": "Create YouTube script for LLM context windows",
+    "description": "8-12 minute deep dive script with timestamps, chapter markers, and B-roll notes.",
+    "status": "in_progress",
+    "assignee": "youtube-producer",
+    "blockedBy": ["task-001"],
+    "blocks": ["task-008"],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-003",
+    "subject": "Create Instagram carousel for LLM context windows",
+    "description": "10-slide carousel explaining context windows visually with alt text.",
+    "status": "in_progress",
+    "assignee": "instagram-curator",
+    "blockedBy": ["task-001"],
+    "blocks": ["task-009"],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-004",
+    "subject": "Create TikTok hooks for LLM context windows",
+    "description": "3-5 viral hook options with scripts for 30-60 second videos.",
+    "status": "in_progress",
+    "assignee": "tiktok-creator",
+    "blockedBy": ["task-001"],
+    "blocks": [],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-005",
+    "subject": "Write Substack article for LLM context windows",
+    "description": "2000-word deep dive article with Notes version and metadata.",
+    "status": "in_progress",
+    "assignee": "substack-writer",
+    "blockedBy": ["task-001"],
+    "blocks": ["task-007"],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-006",
+    "subject": "Create Threads thread for LLM context windows",
+    "description": "12-post thread with conversation starters.",
+    "status": "pending",
+    "assignee": "threads-specialist",
+    "blockedBy": ["task-005"],
+    "blocks": [],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-007",
+    "subject": "Extract quotes for Instagram graphics",
+    "description": "Pull key quotes from Substack article for Instagram visual content.",
+    "status": "pending",
+    "assignee": "instagram-curator",
+    "blockedBy": ["task-005"],
+    "blocks": ["task-009"],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-008",
+    "subject": "Design YouTube thumbnail",
+    "description": "Create 2-3 thumbnail concepts based on the YouTube script.",
+    "status": "pending",
+    "assignee": "visual-designer",
+    "blockedBy": ["task-002"],
+    "blocks": [],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-009",
+    "subject": "Create quote graphics for Instagram",
+    "description": "Design quote graphics from Substack excerpts for carousel slides.",
+    "status": "pending",
+    "assignee": "visual-designer",
+    "blockedBy": ["task-003", "task-007"],
+    "blocks": [],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-010",
+    "subject": "Research keywords and hashtags",
+    "description": "Compile keywords and platform-specific hashtags for all outputs.",
+    "status": "completed",
+    "assignee": "seo-analytics",
+    "blockedBy": ["task-001"],
+    "blocks": [],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": "2026-02-03T11:00:00Z"
+  },
+  {
+    "id": "task-011",
+    "subject": "Set up content folder",
+    "description": "Create dated folder with platform subdirectories.",
+    "status": "completed",
+    "assignee": "content-librarian",
+    "blockedBy": ["task-001"],
+    "blocks": [],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": "2026-02-03T10:35:00Z"
+  },
+  {
+    "id": "task-012",
+    "subject": "Final review: brand consistency check",
+    "description": "Review all platform outputs for brand voice consistency.",
+    "status": "pending",
+    "assignee": "content-strategist",
+    "blockedBy": ["task-002", "task-003", "task-004", "task-005", "task-006"],
+    "blocks": [],
+    "createdAt": "2026-02-03T10:30:00Z",
+    "completedAt": null
+  }
+]

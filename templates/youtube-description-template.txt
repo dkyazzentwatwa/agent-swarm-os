@@ -1,0 +1,26 @@
+{{TITLE}} — {{SUBTITLE}}
+
+{{SUMMARY_LINE_1}}
+{{SUMMARY_LINE_2}}
+
+⏱️ Chapters:
+{{CHAPTER_TIMESTAMPS}}
+
+🔑 Key Takeaways:
+{{KEY_TAKEAWAYS}}
+
+📚 Resources Mentioned:
+{{RESOURCE_LINKS}}
+
+🔗 Links:
+Newsletter: {{NEWSLETTER_URL}}
+GitHub: {{GITHUB_URL}}
+Twitter/X: {{TWITTER_URL}}
+Threads: {{THREADS_URL}}
+Instagram: {{INSTAGRAM_URL}}
+TikTok: {{TIKTOK_URL}}
+
+📬 Subscribe for weekly deep dives into {{CONTENT_PILLAR}}.
+New videos every {{PUBLISH_DAY}}.
+
+{{TAGS}}

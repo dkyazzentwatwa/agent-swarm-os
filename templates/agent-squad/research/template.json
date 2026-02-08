@@ -1,0 +1,105 @@
+{
+  "id": "research",
+  "label": "Research",
+  "description": "Evidence-driven research and synthesis squad",
+  "keywords": ["research", "paper", "analysis", "study", "literature", "evidence", "report", "academic", "legal", "policy", "compliance"],
+  "defaultAgentCount": 5,
+  "groups": [
+    { "id": "lead", "label": "Lead", "description": "Direction and synthesis", "color": "#60a5fa" },
+    { "id": "analysis", "label": "Analysis", "description": "Research and validation", "color": "#22c55e" },
+    { "id": "support", "label": "Support", "description": "Evidence packaging", "color": "#f59e0b" }
+  ],
+  "requiredRoles": [
+    "lead-researcher",
+    "literature-analyst",
+    "synthesis-writer"
+  ],
+  "optionalRolePriority": [
+    "fact-checker",
+    "data-analyst",
+    "visualizer",
+    "citation-manager",
+    "peer-reviewer"
+  ],
+  "roles": [
+    {
+      "id": "lead-researcher",
+      "displayName": "Lead Researcher",
+      "emoji": "🧠",
+      "groupId": "lead",
+      "roleSummary": "Owns research framing and final conclusions.",
+      "prompt": "You are the Lead Researcher. Define the research question, coordinate analysis, and produce defensible conclusions."
+    },
+    {
+      "id": "literature-analyst",
+      "displayName": "Literature Analyst",
+      "emoji": "📚",
+      "groupId": "analysis",
+      "roleSummary": "Collects and summarizes relevant sources.",
+      "prompt": "You are the Literature Analyst. Gather sources, extract key findings, and flag contradictions."
+    },
+    {
+      "id": "synthesis-writer",
+      "displayName": "Synthesis Writer",
+      "emoji": "📝",
+      "groupId": "lead",
+      "roleSummary": "Transforms findings into clear narrative outputs.",
+      "prompt": "You are the Synthesis Writer. Turn research findings into concise, structured deliverables."
+    },
+    {
+      "id": "fact-checker",
+      "displayName": "Fact Checker",
+      "emoji": "✅",
+      "groupId": "analysis",
+      "roleSummary": "Validates claims and catches unsupported statements.",
+      "prompt": "You are the Fact Checker. Verify factual claims and annotate confidence levels and source support."
+    },
+    {
+      "id": "data-analyst",
+      "displayName": "Data Analyst",
+      "emoji": "📊",
+      "groupId": "analysis",
+      "roleSummary": "Analyzes quantitative evidence and trends.",
+      "prompt": "You are the Data Analyst. Interpret quantitative evidence and produce digestible metrics."
+    },
+    {
+      "id": "visualizer",
+      "displayName": "Visualizer",
+      "emoji": "📈",
+      "groupId": "support",
+      "roleSummary": "Converts results into charts and visual summaries.",
+      "prompt": "You are the Visualizer. Create chart-ready and presentation-ready visual summaries of results."
+    },
+    {
+      "id": "citation-manager",
+      "displayName": "Citation Manager",
+      "emoji": "🔖",
+      "groupId": "support",
+      "roleSummary": "Maintains source traceability and citations.",
+      "prompt": "You are the Citation Manager. Maintain citation integrity and source traceability throughout outputs."
+    },
+    {
+      "id": "peer-reviewer",
+      "displayName": "Peer Reviewer",
+      "emoji": "🕵️",
+      "groupId": "support",
+      "roleSummary": "Provides quality assurance and challenge review.",
+      "prompt": "You are the Peer Reviewer. Stress-test conclusions, identify weaknesses, and suggest revisions."
+    }
+  ],
+  "modules": [
+    { "id": "brief", "label": "Brief", "emoji": "🧭", "description": "Research objective and scope" },
+    { "id": "sources", "label": "Sources", "emoji": "📚", "description": "Collected references" },
+    { "id": "notes", "label": "Notes", "emoji": "🗒️", "description": "Working notes" },
+    { "id": "synthesis", "label": "Synthesis", "emoji": "🧠", "description": "Conclusions and narrative" },
+    { "id": "figures", "label": "Figures", "emoji": "📈", "description": "Charts and visual aids" },
+    { "id": "appendix", "label": "Appendix", "emoji": "📎", "description": "Supporting material" }
+  ],
+  "workflowLanes": [
+    { "id": "question", "label": "Question", "description": "Define scope and success criteria" },
+    { "id": "gather", "label": "Gather", "description": "Collect and triage evidence" },
+    { "id": "analyze", "label": "Analyze", "description": "Interpret findings" },
+    { "id": "synthesize", "label": "Synthesize", "description": "Build recommendation" },
+    { "id": "publish", "label": "Publish", "description": "Finalize and package outputs" }
+  ]
+}

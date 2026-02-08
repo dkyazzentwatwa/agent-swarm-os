@@ -1,0 +1,105 @@
+{
+  "id": "software-build",
+  "label": "Software Build",
+  "description": "Product engineering delivery squad",
+  "keywords": ["software", "app", "backend", "frontend", "api", "build", "implementation", "release", "engineering"],
+  "defaultAgentCount": 6,
+  "groups": [
+    { "id": "lead", "label": "Lead", "description": "Architecture and execution leadership", "color": "#60a5fa" },
+    { "id": "engineering", "label": "Engineering", "description": "Implementation specialists", "color": "#22c55e" },
+    { "id": "support", "label": "Support", "description": "Quality and operations", "color": "#f59e0b" }
+  ],
+  "requiredRoles": [
+    "tech-lead",
+    "architect",
+    "backend-engineer",
+    "frontend-engineer"
+  ],
+  "optionalRolePriority": [
+    "qa-engineer",
+    "devops-engineer",
+    "ux-designer",
+    "security-reviewer"
+  ],
+  "roles": [
+    {
+      "id": "tech-lead",
+      "displayName": "Tech Lead",
+      "emoji": "🧭",
+      "groupId": "lead",
+      "roleSummary": "Owns execution plan and tradeoff decisions.",
+      "prompt": "You are the Tech Lead. Drive delivery planning, risk management, and integration decisions."
+    },
+    {
+      "id": "architect",
+      "displayName": "Architect",
+      "emoji": "🏗️",
+      "groupId": "lead",
+      "roleSummary": "Designs system architecture and boundaries.",
+      "prompt": "You are the Architect. Define architecture, interfaces, and data flow boundaries."
+    },
+    {
+      "id": "backend-engineer",
+      "displayName": "Backend Engineer",
+      "emoji": "🛠️",
+      "groupId": "engineering",
+      "roleSummary": "Builds backend services and APIs.",
+      "prompt": "You are the Backend Engineer. Implement backend services, APIs, and persistence concerns."
+    },
+    {
+      "id": "frontend-engineer",
+      "displayName": "Frontend Engineer",
+      "emoji": "🖥️",
+      "groupId": "engineering",
+      "roleSummary": "Builds user interface and client logic.",
+      "prompt": "You are the Frontend Engineer. Build UI flows, client state, and interaction details."
+    },
+    {
+      "id": "qa-engineer",
+      "displayName": "QA Engineer",
+      "emoji": "🧪",
+      "groupId": "support",
+      "roleSummary": "Designs and runs verification strategy.",
+      "prompt": "You are the QA Engineer. Define test strategy, validate behavior, and report defects clearly."
+    },
+    {
+      "id": "devops-engineer",
+      "displayName": "DevOps Engineer",
+      "emoji": "⚙️",
+      "groupId": "support",
+      "roleSummary": "Supports deployment and runtime operations.",
+      "prompt": "You are the DevOps Engineer. Handle deployment workflows, observability, and reliability concerns."
+    },
+    {
+      "id": "ux-designer",
+      "displayName": "UX Designer",
+      "emoji": "🎨",
+      "groupId": "support",
+      "roleSummary": "Ensures usability and interaction quality.",
+      "prompt": "You are the UX Designer. Improve usability, flows, and interface clarity."
+    },
+    {
+      "id": "security-reviewer",
+      "displayName": "Security Reviewer",
+      "emoji": "🔐",
+      "groupId": "support",
+      "roleSummary": "Assesses security risks and mitigations.",
+      "prompt": "You are the Security Reviewer. Identify security risks and propose mitigations before release."
+    }
+  ],
+  "modules": [
+    { "id": "requirements", "label": "Requirements", "emoji": "📋", "description": "Scope and acceptance criteria" },
+    { "id": "design", "label": "Design", "emoji": "🏗️", "description": "Architecture and specs" },
+    { "id": "implementation", "label": "Implementation", "emoji": "💻", "description": "Source deliverables" },
+    { "id": "tests", "label": "Tests", "emoji": "🧪", "description": "Validation artifacts" },
+    { "id": "release", "label": "Release", "emoji": "🚀", "description": "Deployment and rollout" },
+    { "id": "docs", "label": "Docs", "emoji": "📚", "description": "Documentation" }
+  ],
+  "workflowLanes": [
+    { "id": "spec", "label": "Spec", "description": "Clarify requirements" },
+    { "id": "build", "label": "Build", "description": "Implement core functionality" },
+    { "id": "validate", "label": "Validate", "description": "Test and verify" },
+    { "id": "stabilize", "label": "Stabilize", "description": "Harden for release" },
+    { "id": "ship", "label": "Ship", "description": "Release and monitor" }
+  ]
+}

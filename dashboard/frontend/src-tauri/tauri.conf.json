@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Agent Swarm OS",
+  "version": "1.0.0",
+  "identifier": "com.cypher.agent-swarm-os",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Agent Swarm OS",
+        "width": 1460,
+        "height": 940,
+        "resizable": true,
+        "fullscreen": false,
+        "minWidth": 1200,
+        "minHeight": 760
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' http://localhost:3001 http://localhost:5173 ws://localhost:5173; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+    }
+  },
+  "bundle": {
+    "active": false,
+    "targets": "all"
+  }
+}

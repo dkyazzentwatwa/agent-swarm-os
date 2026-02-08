@@ -1,0 +1,3 @@
+{"timestamp":"2026-02-06T09:05:00Z","agent":"legal-coordinator","type":"update","message":"Mission scope locked. Routing draft and compliance tasks."}
+{"timestamp":"2026-02-06T09:20:00Z","agent":"contract-drafter","type":"insight","message":"Liability clause needs capped exposure language to align with policy."}
+{"timestamp":"2026-02-06T09:31:00Z","agent":"compliance-checker","type":"blocker","message":"Missing DPA annex from counterpart. Cannot finalize compliance notes yet."}

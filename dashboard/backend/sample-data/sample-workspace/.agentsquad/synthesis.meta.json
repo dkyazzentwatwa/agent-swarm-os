@@ -1,0 +1,10 @@
+{
+  "createdAt": "2026-02-06T09:00:00.000Z",
+  "synthesisMode": "ai-synthesis",
+  "fallbackUsed": false,
+  "fallbackTemplate": null,
+  "fallbackReason": null,
+  "requestedAgents": 6,
+  "appliedAgents": 6,
+  "model": "claude-cli"
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "name": "content-strategist",
+    "display": "Content Strategist",
+    "emoji": "\ud83c\udfaf",
+    "role": "lead",
+    "status": "idle",
+    "currentTask": null,
+    "agentId": "demo-001",
+    "active": true
+  },
+  {
+    "name": "youtube-producer",
+    "display": "YouTube Producer",
+    "emoji": "\ud83c\udfac",
+    "role": "platform",
+    "status": "working",
+    "currentTask": "Create YouTube script for LLM context windows",
+    "agentId": "demo-002",
+    "active": true
+  },
+  {
+    "name": "instagram-curator",
+    "display": "Instagram Curator",
+    "emoji": "\ud83d\udcf8",
+    "role": "platform",
+    "status": "working",
+    "currentTask": "Create Instagram carousel for LLM context windows",
+    "agentId": "demo-003",
+    "active": true
+  },
+  {
+    "name": "tiktok-creator",
+    "display": "TikTok Creator",
+    "emoji": "\ud83d\udd25",
+    "role": "platform",
+    "status": "working",
+    "currentTask": "Create TikTok hooks for LLM context windows",
+    "agentId": "demo-004",
+    "active": true
+  },
+  {
+    "name": "threads-specialist",
+    "display": "Threads Specialist",
+    "emoji": "\ud83e\uddf5",
+    "role": "platform",
+    "status": "waiting",
+    "currentTask": null,
+    "agentId": "demo-005",
+    "active": true
+  },
+  {
+    "name": "substack-writer",
+    "display": "Substack Writer",
+    "emoji": "\ud83d\udcdd",
+    "role": "platform",
+    "status": "working",
+    "currentTask": "Write Substack article for LLM context windows",
+    "agentId": "demo-006",
+    "active": true
+  },
+  {
+    "name": "visual-designer",
+    "display": "Visual Designer",
+    "emoji": "\u2728",
+    "role": "supporting",
+    "status": "waiting",
+    "currentTask": null,
+    "agentId": "demo-007",
+    "active": true
+  },
+  {
+    "name": "seo-analytics",
+    "display": "SEO & Analytics",
+    "emoji": "\ud83d\udcca",
+    "role": "supporting",
+    "status": "idle",
+    "currentTask": null,
+    "agentId": "demo-008",
+    "active": true
+  },
+  {
+    "name": "content-librarian",
+    "display": "Content Librarian",
+    "emoji": "\ud83d\udcda",
+    "role": "supporting",
+    "status": "idle",
+    "currentTask": null,
+    "agentId": "demo-009",
+    "active": true
+  }
+]

@@ -1,0 +1,123 @@
+{
+  "id": "social-media",
+  "label": "Social Media",
+  "description": "Cross-platform content production squad",
+  "keywords": ["social", "youtube", "instagram", "tiktok", "threads", "substack", "creator", "content"],
+  "defaultAgentCount": 7,
+  "groups": [
+    { "id": "lead", "label": "Lead", "description": "Coordination and strategy", "color": "#60a5fa" },
+    { "id": "platform", "label": "Platform Specialists", "description": "Channel-specific content", "color": "#22c55e" },
+    { "id": "support", "label": "Support", "description": "Design, QA, and optimization", "color": "#f59e0b" }
+  ],
+  "requiredRoles": [
+    "lead-coordinator",
+    "content-strategist",
+    "visual-designer"
+  ],
+  "optionalRolePriority": [
+    "youtube-producer",
+    "instagram-curator",
+    "tiktok-creator",
+    "threads-specialist",
+    "newsletter-writer",
+    "seo-analyst",
+    "asset-librarian"
+  ],
+  "roles": [
+    {
+      "id": "lead-coordinator",
+      "displayName": "Lead Coordinator",
+      "emoji": "🎯",
+      "groupId": "lead",
+      "roleSummary": "Orchestrates the squad and keeps execution aligned to the mission.",
+      "prompt": "You are the Lead Coordinator. Break down the mission into tasks, route work to teammates, resolve blockers, and ensure quality before final handoff."
+    },
+    {
+      "id": "content-strategist",
+      "displayName": "Content Strategist",
+      "emoji": "🧠",
+      "groupId": "lead",
+      "roleSummary": "Defines content angle, narrative, and audience strategy.",
+      "prompt": "You are the Content Strategist. Produce strategy briefs, messaging pillars, and channel positioning for the mission."
+    },
+    {
+      "id": "visual-designer",
+      "displayName": "Visual Designer",
+      "emoji": "✨",
+      "groupId": "support",
+      "roleSummary": "Creates supporting visuals and packaging assets.",
+      "prompt": "You are the Visual Designer. Create visual concepts, thumbnail ideas, and reusable visual assets."
+    },
+    {
+      "id": "youtube-producer",
+      "displayName": "YouTube Producer",
+      "emoji": "🎬",
+      "groupId": "platform",
+      "roleSummary": "Builds long-form video scripts and publishing metadata.",
+      "prompt": "You are the YouTube Producer. Draft scripts, chapter plans, metadata, and production notes for YouTube."
+    },
+    {
+      "id": "instagram-curator",
+      "displayName": "Instagram Curator",
+      "emoji": "📸",
+      "groupId": "platform",
+      "roleSummary": "Designs Instagram-native post/carousel concepts.",
+      "prompt": "You are the Instagram Curator. Produce carousel/story concepts, captions, and engagement hooks."
+    },
+    {
+      "id": "tiktok-creator",
+      "displayName": "TikTok Creator",
+      "emoji": "🔥",
+      "groupId": "platform",
+      "roleSummary": "Produces short-form viral concepts.",
+      "prompt": "You are the TikTok Creator. Generate high-retention short-form hooks and scripts."
+    },
+    {
+      "id": "threads-specialist",
+      "displayName": "Threads Specialist",
+      "emoji": "🧵",
+      "groupId": "platform",
+      "roleSummary": "Writes conversational thread sequences.",
+      "prompt": "You are the Threads Specialist. Draft concise multi-post thread narratives with engagement prompts."
+    },
+    {
+      "id": "newsletter-writer",
+      "displayName": "Newsletter Writer",
+      "emoji": "📝",
+      "groupId": "platform",
+      "roleSummary": "Creates long-form newsletter deliverables.",
+      "prompt": "You are the Newsletter Writer. Produce newsletter drafts, outlines, and publication-ready revisions."
+    },
+    {
+      "id": "seo-analyst",
+      "displayName": "SEO Analyst",
+      "emoji": "📊",
+      "groupId": "support",
+      "roleSummary": "Optimizes discoverability and distribution.",
+      "prompt": "You are the SEO Analyst. Provide keyword targets, metadata recommendations, and publishing timing insights."
+    },
+    {
+      "id": "asset-librarian",
+      "displayName": "Asset Librarian",
+      "emoji": "🗂️",
+      "groupId": "support",
+      "roleSummary": "Maintains organization and consistency of outputs.",
+      "prompt": "You are the Asset Librarian. Organize outputs, enforce naming standards, and maintain reusable assets."
+    }
+  ],
+  "modules": [
+    { "id": "brief", "label": "Brief", "emoji": "🧭", "description": "Mission and strategy docs" },
+    { "id": "youtube", "label": "YouTube", "emoji": "🎬", "description": "Long-form video assets" },
+    { "id": "instagram", "label": "Instagram", "emoji": "📸", "description": "Instagram assets" },
+    { "id": "tiktok", "label": "TikTok", "emoji": "🔥", "description": "Short-form scripts" },
+    { "id": "threads", "label": "Threads", "emoji": "🧵", "description": "Thread posts" },
+    { "id": "newsletter", "label": "Newsletter", "emoji": "📝", "description": "Long-form newsletter" },
+    { "id": "assets", "label": "Assets", "emoji": "📦", "description": "Shared design/support assets" }
+  ],
+  "workflowLanes": [
+    { "id": "intake", "label": "Intake", "description": "Scope mission and constraints" },
+    { "id": "creation", "label": "Creation", "description": "Produce channel assets" },
+    { "id": "review", "label": "Review", "description": "Cross-check quality and brand" },
+    { "id": "delivery", "label": "Delivery", "description": "Package final output" }
+  ]
+}

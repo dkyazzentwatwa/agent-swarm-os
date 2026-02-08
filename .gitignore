@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dashboard/frontend/src-tauri/target/
+dashboard/frontend/src-tauri/gen/
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+
+# Test coverage
+coverage/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+.tmp/
+
+# Personal workspaces
+workspaces/

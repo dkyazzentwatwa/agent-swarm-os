@@ -1,0 +1,11 @@
+{
+  "teamName": null,
+  "workspacesDir": null,
+  "teamsDir": null,
+  "tasksDir": null,
+  "preferredTemplate": null,
+  "defaultAgents": 6,
+  "teammateMode": "in-process",
+  "claudeAgentTeamsEnv": false,
+  "kickoffCommand": "claude CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 --teammate-mode in-process --dangerously-skip-permissions"
+}

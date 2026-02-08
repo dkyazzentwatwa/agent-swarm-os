@@ -1,0 +1,74 @@
+[
+  {
+    "id": "task-001",
+    "subject": "Mission intake and scope freeze",
+    "description": "Collect contract objectives, counterpart constraints, and delivery timeline.",
+    "status": "completed",
+    "assignee": "legal-coordinator",
+    "blockedBy": [],
+    "blocks": ["task-002", "task-003", "task-004", "task-005"],
+    "lane": "intake",
+    "createdAt": "2026-02-06T09:00:00Z",
+    "completedAt": "2026-02-06T09:20:00Z"
+  },
+  {
+    "id": "task-002",
+    "subject": "Draft master services agreement",
+    "description": "Create first pass of MSA terms including payment and termination clauses.",
+    "status": "in_progress",
+    "assignee": "contract-drafter",
+    "blockedBy": ["task-001"],
+    "blocks": ["task-006"],
+    "lane": "draft",
+    "createdAt": "2026-02-06T09:21:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-003",
+    "subject": "Run clause-level risk review",
+    "description": "Identify unacceptable liabilities and fallback alternatives.",
+    "status": "pending",
+    "assignee": "clause-risk-reviewer",
+    "blockedBy": ["task-002"],
+    "blocks": ["task-006"],
+    "lane": "review",
+    "createdAt": "2026-02-06T09:21:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-004",
+    "subject": "Compliance cross-check",
+    "description": "Validate contract language against regional compliance constraints.",
+    "status": "pending",
+    "assignee": "compliance-checker",
+    "blockedBy": ["task-002"],
+    "blocks": ["task-006"],
+    "lane": "review",
+    "createdAt": "2026-02-06T09:21:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-005",
+    "subject": "Build negotiation strategy",
+    "description": "Draft redline negotiation plan with fallback positions.",
+    "status": "in_progress",
+    "assignee": "negotiation-strategist",
+    "blockedBy": ["task-001"],
+    "blocks": ["task-006"],
+    "lane": "redline",
+    "createdAt": "2026-02-06T09:25:00Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-006",
+    "subject": "Assemble final legal package",
+    "description": "Consolidate draft, risk notes, and negotiation package for delivery.",
+    "status": "pending",
+    "assignee": "evidence-librarian",
+    "blockedBy": ["task-003", "task-004", "task-005"],
+    "blocks": [],
+    "lane": "finalize",
+    "createdAt": "2026-02-06T09:30:00Z",
+    "completedAt": null
+  }
+]
