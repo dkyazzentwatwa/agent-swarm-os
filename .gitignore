@@ -29,5 +29,11 @@ coverage/
 tmp/
 .tmp/
 
-# Personal workspaces
+# Personal workspaces and artifacts
 workspaces/
+!workspaces/.gitkeep
+artifacts/personal/
+*.personal.*
+
+# Development archives
+docs/development-archive/

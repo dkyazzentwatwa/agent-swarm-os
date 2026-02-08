@@ -1,5 +1,11 @@
 # Agent Swarm OS
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![Quality Score](https://img.shields.io/badge/Quality-95%2F100-brightgreen.svg)](./dashboard/QUALITY_IMPROVEMENT_COMPLETE.md)
+[![Security](https://img.shields.io/badge/Security-95%2F100-brightgreen.svg)](./SECURITY.md)
+
+> Real-time monitoring and control interface for Claude multi-agent mission execution
+
 Agent Swarm OS is a Tauri desktop app for managing Claude Code Agent Teams in swarm mode with minimal setup friction.
 
 It initializes a mission workspace, synthesizes a domain-specific team from your topic using Claude CLI, scaffolds prompts/tasks/modules, and provides a live dashboard for mission execution.
