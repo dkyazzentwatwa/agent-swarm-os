@@ -6,7 +6,7 @@ const path = require("path");
 
 const { readCommsFromFile } = require("../services/commsReader");
 
-test("readCommsFromFile keeps only selected workspace messages and supports workspace key variants", () => {
+test("readCommsFromFile keeps only selected workspace messages and supports workspace key variants", async () => {
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "comms-reader-test-"));
   const filePath = path.join(tmpRoot, "team-feed.jsonl");
 
@@ -49,7 +49,7 @@ test("readCommsFromFile keeps only selected workspace messages and supports work
 
   fs.writeFileSync(filePath, lines.map((line) => JSON.stringify(line)).join("\n") + "\n");
 
-  const messages = readCommsFromFile(filePath, null, { workspaceId: "workspace-1" });
+  const messages = await readCommsFromFile(filePath, null, { workspaceId: "workspace-1" });
 
   assert.equal(messages.length, 3);
   assert.deepEqual(
@@ -60,7 +60,7 @@ test("readCommsFromFile keeps only selected workspace messages and supports work
   assert.equal(messages.some((msg) => msg.message.includes("different workspace")), false);
 });
 
-test("readCommsFromFile respects since filtering", () => {
+test("readCommsFromFile respects since filtering", async () => {
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "comms-reader-test-"));
   const filePath = path.join(tmpRoot, "team-feed.jsonl");
 
@@ -83,12 +83,12 @@ test("readCommsFromFile respects since filtering", () => {
 
   fs.writeFileSync(filePath, lines.map((line) => JSON.stringify(line)).join("\n") + "\n");
 
-  const messages = readCommsFromFile(filePath, "2026-02-06T10:02:00.000Z", { workspaceId: "workspace-1" });
+  const messages = await readCommsFromFile(filePath, "2026-02-06T10:02:00.000Z", { workspaceId: "workspace-1" });
   assert.equal(messages.length, 1);
   assert.equal(messages[0].message, "new");
 });
 
-test("readCommsFromFile can map unscoped messages to selected workspace when fallback is enabled", () => {
+test("readCommsFromFile can map unscoped messages to selected workspace when fallback is enabled", async () => {
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "comms-reader-test-"));
   const filePath = path.join(tmpRoot, "team-feed.jsonl");
 
@@ -117,11 +117,11 @@ test("readCommsFromFile can map unscoped messages to selected workspace when fal
 
   fs.writeFileSync(filePath, lines.map((line) => JSON.stringify(line)).join("\n") + "\n");
 
-  const withoutFallback = readCommsFromFile(filePath, null, { workspaceId: "workspace-1" });
+  const withoutFallback = await readCommsFromFile(filePath, null, { workspaceId: "workspace-1" });
   assert.equal(withoutFallback.length, 1);
   assert.equal(withoutFallback[0].message, "workspace path format");
 
-  const withFallback = readCommsFromFile(filePath, null, {
+  const withFallback = await readCommsFromFile(filePath, null, {
     workspaceId: "workspace-1",
     allowUnscopedFallback: true,
     fallbackWorkspaceId: "workspace-1",

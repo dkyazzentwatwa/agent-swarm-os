@@ -31,13 +31,13 @@ function writeWorkspace(root, id, title) {
   return workspacePath;
 }
 
-test("getWorkspaceContext returns null for unknown explicit workspaceId", () => {
+test("getWorkspaceContext returns null for unknown explicit workspaceId", async () => {
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "workspace-reader-test-"));
 
   writeWorkspace(tmpRoot, "workspace-a", "Workspace A");
   writeWorkspace(tmpRoot, "workspace-b", "Workspace B");
 
-  const context = getWorkspaceContext({
+  const context = await getWorkspaceContext({
     workspacesDir: tmpRoot,
     workspaceId: "workspace-missing",
     demoMode: false,
@@ -47,7 +47,7 @@ test("getWorkspaceContext returns null for unknown explicit workspaceId", () => 
   assert.equal(context, null);
 });
 
-test("getWorkspaceContext still falls back to latest when workspaceId is omitted", () => {
+test("getWorkspaceContext still falls back to latest when workspaceId is omitted", async () => {
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "workspace-reader-test-"));
 
   const wsAPath = writeWorkspace(tmpRoot, "workspace-a", "Workspace A");
@@ -58,7 +58,7 @@ test("getWorkspaceContext still falls back to latest when workspaceId is omitted
   fs.utimesSync(wsAPath, older, older);
   fs.utimesSync(wsBPath, newer, newer);
 
-  const context = getWorkspaceContext({
+  const context = await getWorkspaceContext({
     workspacesDir: tmpRoot,
     workspaceId: null,
     demoMode: false,
