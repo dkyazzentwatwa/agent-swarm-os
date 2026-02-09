@@ -2347,6 +2347,87 @@ async fn get_workspace_kickoff_prompt(
 }
 
 #[tauri::command]
+async fn generate_workspace_kickoff_prompt(
+    state: State<'_, AppState>,
+    workspace_id: String,
+) -> Result<Value, String> {
+    let config = current_config(&state);
+    let workspace = workspace_id.trim();
+
+    if workspace.is_empty() {
+        return Err("workspaceId is required".to_string());
+    }
+
+    let workspace_path = config.workspaces_dir.join(workspace);
+    if !workspace_path.exists() {
+        return Err(format!(
+            "Workspace not found: {}",
+            normalize_slashes(&workspace_path)
+        ));
+    }
+
+    // Read workspace.json to get manifest data
+    let manifest_path = workspace_path.join("workspace.json");
+    if !manifest_path.exists() {
+        return Err("workspace.json not found".to_string());
+    }
+
+    let manifest_content = fs::read_to_string(&manifest_path)
+        .map_err(|error| format!("Failed to read workspace.json: {error}"))?;
+
+    let manifest: Value = serde_json::from_str(&manifest_content)
+        .map_err(|error| format!("Failed to parse workspace.json: {error}"))?;
+
+    // Extract team name and workspace ID from manifest
+    let team_name = manifest
+        .get("team")
+        .and_then(|t| t.get("name"))
+        .and_then(|n| n.as_str())
+        .unwrap_or("agent-squad-team");
+
+    let workspace_relative = format!("workspaces/{}", workspace);
+
+    // Build kickoff prompt (same format as init script)
+    let kickoff_prompt = format!(
+        r#"Start Agent Squad workflow for workspace:
+{}
+
+Load:
+- workspace.json
+- tasks.json
+- source/mission.md
+- agents/*.md
+
+Then:
+1) Assign each pending task to the correct agent role.
+2) Begin execution in workflow-lane order.
+3) Post all progress updates to ~/.claude/teams/{}/team-feed.jsonl as JSONL events with fields: timestamp, workspaceId ({}), agent, type (update/insight/blocker), message.
+4) Write outputs into the corresponding artifacts/{{module-id}}/ folders.
+5) Mark tasks complete in tasks.json as work finishes."#,
+        workspace_relative, team_name, workspace
+    );
+
+    // Ensure .agentsquad directory exists
+    let agentsquad_dir = workspace_path.join(".agentsquad");
+    if !agentsquad_dir.exists() {
+        fs::create_dir_all(&agentsquad_dir)
+            .map_err(|error| format!("Failed to create .agentsquad directory: {error}"))?;
+    }
+
+    // Write kickoff prompt
+    let kickoff_path = agentsquad_dir.join("kickoff-prompt.txt");
+    fs::write(&kickoff_path, kickoff_prompt.as_bytes())
+        .map_err(|error| format!("Failed to write kickoff prompt: {error}"))?;
+
+    Ok(json!({
+        "ok": true,
+        "prompt": kickoff_prompt,
+        "promptPath": normalize_slashes(&kickoff_path),
+        "workspaceId": workspace,
+    }))
+}
+
+#[tauri::command]
 async fn save_workspace_kickoff_prompt(
     state: State<'_, AppState>,
     workspace_id: String,
@@ -2487,6 +2568,7 @@ fn main() {
             run_claude_command,
             run_swarm_kickoff,
             get_workspace_kickoff_prompt,
+            generate_workspace_kickoff_prompt,
             save_workspace_kickoff_prompt,
             open_terminal_with_command
         ])

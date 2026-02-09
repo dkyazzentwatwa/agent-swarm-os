@@ -107,6 +107,15 @@ export async function getWorkspaceKickoffPrompt(workspaceId) {
   return invoke("get_workspace_kickoff_prompt", { workspaceId });
 }
 
+export async function generateWorkspaceKickoffPrompt(workspaceId) {
+  if (!isTauriRuntime()) {
+    return { ok: false, error: "Generate workspace prompt requires Tauri runtime." };
+  }
+
+  const invoke = await getInvoke();
+  return invoke("generate_workspace_kickoff_prompt", { workspaceId });
+}
+
 export async function saveWorkspaceKickoffPrompt(workspaceId, prompt) {
   if (!isTauriRuntime()) {
     return { ok: false, error: "Save workspace prompt requires Tauri runtime." };

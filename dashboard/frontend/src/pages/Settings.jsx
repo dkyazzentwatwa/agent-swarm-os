@@ -3,7 +3,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Panel } from "@/components/ui/Panel";
 import { DeleteWorkspaceModal } from "@/components/DeleteWorkspaceModal";
-import { getAppSettings, runClaudeCommand, runSwarmKickoff, openTerminalWithCommand, getWorkspaceKickoffPrompt, saveWorkspaceKickoffPrompt, saveAppSettings, selectDirectory, isTauri, deleteWorkspace } from "@/lib/transport";
+import { getAppSettings, runClaudeCommand, runSwarmKickoff, openTerminalWithCommand, getWorkspaceKickoffPrompt, generateWorkspaceKickoffPrompt, saveWorkspaceKickoffPrompt, saveAppSettings, selectDirectory, isTauri, deleteWorkspace } from "@/lib/transport";
 
 function copyText(text) {
   return navigator.clipboard.writeText(text).catch(() => {
@@ -89,11 +89,30 @@ export default function Settings() {
         if (payload.ok && payload.prompt) {
           setWorkspacePrompt(payload.prompt);
         } else {
+          // File doesn't exist - that's OK, user can create a new one
           setWorkspacePrompt("");
+          // Only show error if it's NOT a "not found" error
+          const isNotFound = payload.error && payload.error.includes("not found");
+          if (!isNotFound) {
+            console.error("Failed to load prompt:", payload);
+            setResult({
+              ok: false,
+              stderr: `Failed to load workspace prompt: ${payload.error || "Unknown error"}`
+            });
+          }
         }
       } catch (error) {
         if (!cancelled) {
           setWorkspacePrompt("");
+          console.error("Error loading prompt:", error);
+          // Only show unexpected errors
+          const isNotFound = String(error).includes("not found");
+          if (!isNotFound) {
+            setResult({
+              ok: false,
+              stderr: `Error loading workspace prompt: ${error.message || String(error)}`
+            });
+          }
         }
       } finally {
         if (!cancelled) setPromptLoading(false);
@@ -510,6 +529,34 @@ export default function Settings() {
                   className="rounded-md border border-border px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:bg-[var(--interactive-hover)] disabled:opacity-60"
                 >
                   Reload from file
+                </button>
+                <button
+                  type="button"
+                  disabled={promptSaving}
+                  onClick={async () => {
+                    setPromptLoading(true);
+                    setResult(null);
+                    try {
+                      const payload = await generateWorkspaceKickoffPrompt(workspaceId);
+                      if (payload.ok && payload.prompt) {
+                        setWorkspacePrompt(payload.prompt);
+                        setResult({
+                          ok: true,
+                          stdout: `Kickoff prompt generated successfully!\n\nFile: ${payload.promptPath}\n\nThe prompt has been auto-filled. Click "Save prompt" to confirm.`
+                        });
+                      } else {
+                        setResult({ ok: false, stderr: payload.error || "Failed to generate prompt" });
+                      }
+                    } catch (error) {
+                      setResult({ ok: false, stderr: String(error?.message || error) });
+                    } finally {
+                      setPromptLoading(false);
+                    }
+                  }}
+                  className="rounded-md border border-border bg-blue-500/20 px-3 py-1.5 text-xs text-blue-300 hover:bg-blue-500/30 disabled:opacity-60"
+                  title="Generate a new kickoff prompt from workspace.json"
+                >
+                  Generate prompt
                 </button>
               </div>
             </div>
