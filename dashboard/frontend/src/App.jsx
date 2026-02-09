@@ -1,11 +1,12 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Layout } from "./components/Layout";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { LoadingState } from "./components/Spinner";
 import { useTheme } from "./hooks/useTheme";
-import { isTauri } from "./lib/transport";
+import { isTauri, getAppSettings } from "./lib/transport";
+import { FirstLaunchModal } from "@/components/FirstLaunchModal";
 
 const MissionControl = lazy(() => import("./pages/MissionControl"));
 const Comms = lazy(() => import("./pages/CoffeeRoom"));
@@ -113,7 +114,37 @@ function useTauriFileChangeBridge() {
 
 export default function App() {
   const { activeTheme, cycleTheme } = useTheme();
+  const [needsConfiguration, setNeedsConfiguration] = useState(false);
+  const [checkingConfig, setCheckingConfig] = useState(true);
   useTauriFileChangeBridge();
+
+  useEffect(() => {
+    async function checkConfig() {
+      try {
+        const settings = await getAppSettings();
+        setNeedsConfiguration(settings.needsConfiguration || false);
+      } catch (error) {
+        console.error("Failed to load settings:", error);
+        // On error, assume needs configuration
+        setNeedsConfiguration(true);
+      } finally {
+        setCheckingConfig(false);
+      }
+    }
+    checkConfig();
+  }, []);
+
+  if (checkingConfig) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[var(--surface-1)]">
+        <p className="text-sm text-[var(--text-secondary)]">Loading configuration...</p>
+      </div>
+    );
+  }
+
+  if (needsConfiguration) {
+    return <FirstLaunchModal onComplete={() => window.location.reload()} />;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
