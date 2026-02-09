@@ -1994,6 +1994,63 @@ fn api_get(state: State<'_, AppState>, url: String) -> Result<Value, String> {
 }
 
 #[tauri::command]
+fn api_delete(state: State<'_, AppState>, url: String) -> Result<Value, String> {
+    dispatch_api_delete(&state, &url)
+}
+
+fn dispatch_api_delete(state: &AppState, url: &str) -> Result<Value, String> {
+    let (segments, query) = parse_url(url)?;
+    let archive = query.get("archive").map(|s| s == "true").unwrap_or(false);
+
+    match segments.as_slice() {
+        [api, workspace, workspace_id] if api == "api" && workspace == "workspace" => {
+            endpoint_delete_workspace(state, workspace_id, archive)
+        }
+        _ => Err(format!("Unsupported DELETE endpoint: {}", url)),
+    }
+}
+
+fn endpoint_delete_workspace(state: &AppState, workspace_id: &str, archive: bool) -> Result<Value, String> {
+    use std::fs;
+    use std::path::Path;
+
+    let workspaces_dir = &state.config.workspaces_dir;
+    let workspace_path = Path::new(workspaces_dir).join(workspace_id);
+
+    if !workspace_path.exists() {
+        return Err(format!("Workspace not found: {}", workspace_id));
+    }
+
+    if archive {
+        // Archive mode: move to .archived folder
+        let archive_dir = Path::new(workspaces_dir).join(".archived");
+        fs::create_dir_all(&archive_dir)
+            .map_err(|e| format!("Failed to create archive directory: {}", e))?;
+
+        let archived_path = archive_dir.join(workspace_id);
+        fs::rename(&workspace_path, &archived_path)
+            .map_err(|e| format!("Failed to archive workspace: {}", e))?;
+
+        Ok(json!({
+            "ok": true,
+            "message": "Workspace archived successfully",
+            "workspaceId": workspace_id,
+            "archivedPath": archived_path.to_string_lossy()
+        }))
+    } else {
+        // Delete mode: permanently remove
+        fs::remove_dir_all(&workspace_path)
+            .map_err(|e| format!("Failed to delete workspace: {}", e))?;
+
+        Ok(json!({
+            "ok": true,
+            "message": "Workspace deleted successfully",
+            "workspaceId": workspace_id
+        }))
+    }
+}
+
+#[tauri::command]
 async fn init_workspace(
     state: State<'_, AppState>,
     request: InitWorkspaceRequest,
@@ -2256,6 +2313,7 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             api_get,
+            api_delete,
             init_workspace,
             get_app_settings,
             save_app_settings,

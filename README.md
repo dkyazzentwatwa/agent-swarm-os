@@ -69,16 +69,89 @@ Optional flags:
 - `--team-name <name>`
 - `--wizard`
 
-## Legacy Web Mode
+## Dashboard Development
 
-You can still run the old split backend/frontend web dashboard:
+### Quick Start
 
+The dashboard requires both backend and frontend servers running simultaneously.
+
+**Option 1: Use npm script (recommended)**
 ```bash
-npm run start
+cd dashboard
+npm install  # First time only - installs concurrently
+npm run dev
 ```
 
-- Dashboard: [http://localhost:5173](http://localhost:5173)
-- API: [http://localhost:3001](http://localhost:3001)
+This starts both servers with color-coded output:
+- **Backend**: http://localhost:3001 (Express API)
+- **Frontend**: http://localhost:5173 (Vite dev server)
+
+**Option 2: Use Makefile**
+```bash
+cd dashboard
+make install  # First time only
+make dev
+```
+
+**Option 3: Manual startup (if above fails)**
+```bash
+# Terminal 1 - Backend
+cd dashboard/backend
+node server.js
+
+# Terminal 2 - Frontend
+cd dashboard/frontend
+npm run dev
+```
+
+### Port Requirements
+
+- **Backend**: Port 3001 (Express API server)
+- **Frontend**: Port 5173 (Vite dev server with HMR)
+- Frontend proxies `/api/*` requests to backend automatically
+
+### Troubleshooting
+
+**Error: "Failed to load resource: 500 Internal Server Error"**
+- Make sure backend is running on port 3001
+- Check backend logs: `tail -f dashboard/backend/logs/*.log`
+- Verify workspaces directory exists with valid workspace.json files
+
+**Port already in use:**
+```bash
+cd dashboard
+make stop  # or: lsof -ti:3001,5173 | xargs kill -9
+```
+
+**Dependencies not installed:**
+```bash
+cd dashboard
+make install  # or: npm run install:all
+```
+
+### Available Commands
+
+From `dashboard/` directory:
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start both backend + frontend |
+| `npm run dev:backend` | Start only backend (port 3001) |
+| `npm run dev:frontend` | Start only frontend (port 5173) |
+| `npm run build` | Build production frontend |
+| `npm run install:all` | Install all dependencies |
+| `make dev` | Start both servers (alternative) |
+| `make stop` | Stop all running servers |
+| `make install` | Install all dependencies (alternative) |
+
+### Production Build
+
+```bash
+cd dashboard
+npm run build  # Outputs to frontend/dist/
+```
+
+Then serve with your preferred static file server or integrate with Tauri desktop app.
 
 ## How Init Works
 
@@ -158,13 +231,23 @@ Legacy aliases are still available for compatibility:
 
 ## Scripts
 
-- `npm run init` initialize workspace with AI synthesis
-- `npm run start` run dashboard in live mode
-- `npm run dashboard:demo` run dashboard using bundled sample workspace
-- `npm run reset` archive active workspaces and team feed
-- `npm run build` build frontend
-- `npm run tauri:dev` run the desktop app in development
-- `npm run tauri:build` build desktop binaries
+### Root Directory
+
+- `npm run init` - Initialize workspace with AI synthesis
+- `npm run reset` - Archive active workspaces and team feed
+- `npm run tauri:dev` - Run the desktop app in development
+- `npm run tauri:build` - Build desktop binaries
+
+### Dashboard Directory (`cd dashboard`)
+
+- `npm run dev` - Start both backend + frontend (port 3001 + 5173)
+- `npm run dev:backend` - Start only backend server (port 3001)
+- `npm run dev:frontend` - Start only frontend server (port 5173)
+- `npm run build` - Build production frontend
+- `npm run install:all` - Install all dependencies (root, backend, frontend)
+- `make dev` - Alternative to npm run dev (requires make)
+- `make stop` - Stop all running servers
+- `make install` - Alternative to npm run install:all
 
 ## Reset Behavior
 

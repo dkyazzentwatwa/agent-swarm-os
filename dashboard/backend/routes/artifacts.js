@@ -115,7 +115,7 @@ router.get("/", async (req, res) => {
     ]);
   }
 
-  const entries = listWorkspaceEntries(workspacesDir);
+  const entries = await listWorkspaceEntries(workspacesDir);
   const filteredEntries = requestedWorkspaceId
     ? entries.filter((entry) => entry.id === requestedWorkspaceId)
     : entries;

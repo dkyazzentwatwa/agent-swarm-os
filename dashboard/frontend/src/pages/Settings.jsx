@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Panel } from "@/components/ui/Panel";
-import { getAppSettings, runClaudeCommand, runSwarmKickoff, saveAppSettings, selectDirectory, isTauri } from "@/lib/transport";
+import { DeleteWorkspaceModal } from "@/components/DeleteWorkspaceModal";
+import { getAppSettings, runClaudeCommand, runSwarmKickoff, saveAppSettings, selectDirectory, isTauri, deleteWorkspace } from "@/lib/transport";
 
 function copyText(text) {
   return navigator.clipboard.writeText(text).catch(() => {
@@ -15,13 +16,15 @@ function withFallback(value, fallback = "") {
 }
 
 export default function Settings() {
-  const { workspaceId } = useOutletContext();
+  const navigate = useNavigate();
+  const { workspaceId, workspaceData, onWorkspaceChange } = useOutletContext();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState(null);
   const [settingsPath, setSettingsPath] = useState("");
   const [effectiveConfig, setEffectiveConfig] = useState({});
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [form, setForm] = useState({
     teamName: "",
     workspacesDir: "",
@@ -118,6 +121,28 @@ export default function Settings() {
     const selected = await selectDirectory(currentPath || null);
     if (selected) {
       setForm((prev) => ({ ...prev, [fieldName]: selected }));
+    }
+  }
+
+  async function handleDeleteWorkspace(workspaceIdToDelete, archive) {
+    try {
+      await deleteWorkspace(workspaceIdToDelete, archive);
+      setResult({
+        ok: true,
+        stdout: `Workspace ${archive ? "archived" : "deleted"} successfully: ${workspaceIdToDelete}`,
+      });
+
+      // If we deleted the current workspace, navigate to home and clear selection
+      if (workspaceIdToDelete === workspaceId) {
+        onWorkspaceChange?.(null);
+        navigate("/");
+      }
+    } catch (error) {
+      setResult({
+        ok: false,
+        stderr: error.message || "Failed to delete workspace",
+      });
+      throw error;
     }
   }
 
@@ -339,6 +364,38 @@ export default function Settings() {
           <p>Settings file: <code>{settingsPath || "N/A"}</code></p>
         </div>
       </Panel>
+
+      {workspaceId && (
+        <Panel title="Danger Zone" description="Permanent workspace operations">
+          <div className="space-y-3 rounded-md border border-red-500/30 bg-red-500/5 p-4">
+            <div>
+              <p className="text-sm font-semibold text-[var(--text-primary)]">Delete Current Workspace</p>
+              <p className="mt-1 text-xs text-[var(--text-secondary)]">
+                Current workspace: <code className="font-mono">{workspaceId}</code>
+              </p>
+              <p className="mt-1 text-xs text-[var(--text-tertiary)]">
+                This will remove all artifacts, tasks, and configuration for this workspace.
+                You can choose to archive instead of permanent deletion.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowDeleteModal(true)}
+              className="rounded-md border border-red-500 bg-red-500/20 px-3 py-1.5 text-xs text-red-300 hover:bg-red-500/30"
+            >
+              Delete Workspace...
+            </button>
+          </div>
+        </Panel>
+      )}
+
+      {showDeleteModal && (
+        <DeleteWorkspaceModal
+          workspace={{ id: workspaceId, title: workspaceData?.manifest?.workspace?.title }}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDeleteWorkspace}
+        />
+      )}
 
       {result ? (
         <Panel title="Command Result" description="Most recent save/run output">

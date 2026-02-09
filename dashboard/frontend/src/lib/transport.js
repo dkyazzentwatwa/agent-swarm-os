@@ -111,3 +111,23 @@ export async function selectDirectory(defaultPath = null) {
     return null;
   }
 }
+
+export async function deleteWorkspace(workspaceId, archive = false) {
+  if (!workspaceId) {
+    throw new Error("Workspace ID is required");
+  }
+
+  const url = `/api/workspace/${encodeURIComponent(workspaceId)}${archive ? "?archive=true" : ""}`;
+
+  if (!isTauriRuntime()) {
+    const response = await fetch(url, { method: "DELETE" });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to delete workspace");
+    }
+    return response.json();
+  }
+
+  const invoke = await getInvoke();
+  return invoke("api_delete", { url });
+}

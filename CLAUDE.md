@@ -56,8 +56,17 @@ post_blocker(message="Cannot proceed - missing API credentials", blockedTask="ta
 **Manual JSONL format (if skills unavailable):**
 
 ```json
-{"timestamp":"ISO8601","agent":"agent-id","type":"update|insight|blocker","message":"text"}
+{"timestamp":"ISO8601","agent":"agent-id","type":"update|insight|blocker","message":"text","workspaceId":"workspace-id"}
 ```
+
+**CRITICAL: workspaceId is REQUIRED**
+
+When multiple workspaces share the same team name, messages WITHOUT a `workspaceId` field will NOT appear in the dashboard. The dashboard filters messages to show only those belonging to the current workspace.
+
+- ✅ CORRECT: `{"timestamp":"...", "agent":"...", "type":"update", "message":"...", "workspaceId":"2026-02-08-..."}`
+- ❌ WRONG: `{"timestamp":"...", "agent":"...", "type":"update", "message":"..."}` (missing workspaceId - will be filtered out)
+
+The `agent-squad:comms` skill automatically includes workspaceId. If posting manually, always include it.
 
 Use:
 
@@ -118,9 +127,10 @@ Both skills auto-detect workspace ID from current working directory:
 
 ### Benefits
 
-- **Automatic formatting**: JSONL, ISO8601 timestamps, agent ID injection
+- **Automatic formatting**: JSONL, ISO8601 timestamps, agent ID injection, **workspaceId injection**
 - **File safety**: Concurrent write protection with file locking
 - **Validation**: Lane validation, task existence checks, workspace structure
+- **Dashboard visibility**: Ensures messages appear in the correct workspace's Comms feed
 - **Simplicity**: One-command operations vs manual JSON editing
 
 See `SKILLS_QUICK_START.md` for detailed usage guide.

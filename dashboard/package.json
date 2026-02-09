@@ -1,0 +1,32 @@
+{
+  "name": "agent-squad-dashboard",
+  "version": "1.0.0",
+  "description": "Multi-agent mission control dashboard with real-time collaboration",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --names \"BACKEND,FRONTEND\" --prefix-colors \"blue,green\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && node server.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start:backend": "cd backend && node server.js",
+    "start:frontend": "cd frontend && npm run preview",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "test": "cd backend && npm test",
+    "lint": "cd frontend && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/agent-squad-os"
+  },
+  "keywords": [
+    "agent-squad",
+    "multi-agent",
+    "dashboard",
+    "mission-control"
+  ],
+  "author": "Agent Squad Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

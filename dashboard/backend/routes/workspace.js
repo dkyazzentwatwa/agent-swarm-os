@@ -1,4 +1,6 @@
 const express = require("express");
+const fs = require("fs").promises;
+const path = require("path");
 const {
   getWorkspaceContext,
   listWorkspaceEntries,
@@ -90,6 +92,65 @@ router.get("/:workspaceId/blueprint", async (req, res) => {
   } catch (error) {
     console.error("Error in blueprint route:", error);
     return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.delete("/:workspaceId", async (req, res) => {
+  try {
+    const { workspacesDir, demoMode } = req.app.locals;
+    const { workspaceId } = req.params;
+    const { archive = false } = req.query;
+
+    if (demoMode) {
+      return res.status(403).json({ error: "Cannot delete workspaces in demo mode" });
+    }
+
+    if (!workspaceId) {
+      return res.status(400).json({ error: "Workspace ID is required" });
+    }
+
+    const workspaceContext = await getWorkspaceContext({
+      workspacesDir,
+      workspaceId,
+      demoMode: false,
+    });
+
+    if (!workspaceContext) {
+      return res.status(404).json({ error: "Workspace not found" });
+    }
+
+    const workspacePath = workspaceContext.workspacePath;
+
+    if (archive) {
+      // Archive mode: move to archived directory
+      const archiveDir = path.join(workspacesDir, ".archived");
+      await fs.mkdir(archiveDir, { recursive: true });
+
+      const archivedPath = path.join(archiveDir, workspaceId);
+      await fs.rename(workspacePath, archivedPath);
+
+      return res.json({
+        ok: true,
+        message: "Workspace archived successfully",
+        workspaceId,
+        archivedPath,
+      });
+    } else {
+      // Delete mode: permanently remove
+      await fs.rm(workspacePath, { recursive: true, force: true });
+
+      return res.json({
+        ok: true,
+        message: "Workspace deleted successfully",
+        workspaceId,
+      });
+    }
+  } catch (error) {
+    console.error("Error deleting workspace:", error);
+    return res.status(500).json({
+      error: "Failed to delete workspace",
+      details: error.message
+    });
   }
 });
 

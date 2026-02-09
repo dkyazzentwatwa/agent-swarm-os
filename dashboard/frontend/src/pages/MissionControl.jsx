@@ -156,7 +156,7 @@ export default function MissionControl() {
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <TaskProgress summary={taskData?.summary} />
-        <WeeklyCalendar lanes={lanes} />
+        <WeeklyCalendar lanes={lanes} tasks={tasks} />
       </div>
 
       <RunbookPanel tasks={tasks} messages={messages} />
