@@ -14,60 +14,60 @@ It initializes a mission workspace, synthesizes a domain-specific team from your
 
 <p align="center">
   <img src="./img/dashboard1.png" alt="Mission Control Dashboard" width="100%">
-  <em>Mission Control - Real-time agent coordination and task monitoring</em>
+  <em>Mission Control - Agent teams grouped by role with real-time status</em>
 </p>
 
 <details>
 <summary><b>View More Screenshots</b></summary>
 
 <p align="center">
-  <img src="./img/dashboard2.png" alt="Agent Status View" width="100%">
-  <em>Agent Status - Monitor individual agent activity and assignments</em>
+  <img src="./img/dashboard2.png" alt="Task Board" width="100%">
+  <em>Tasks - Kanban board with Pending, In Progress, Completed, and Blocked lanes</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard3.png" alt="Task Management" width="100%">
-  <em>Task Management - Track progress across workflow lanes</em>
+  <img src="./img/dashboard3.png" alt="Analytics Dashboard" width="100%">
+  <em>Analytics - Mission health metrics, module distribution, and team performance</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard4.png" alt="Team Communications" width="100%">
-  <em>Team Feed - Live updates and insights from agents</em>
+  <img src="./img/dashboard4.png" alt="Summary View" width="100%">
+  <em>Summary - Workspace snapshot with final package checklist and executive report</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard5.png" alt="Artifacts Gallery" width="100%">
-  <em>Artifacts - Browse deliverables by module</em>
+  <img src="./img/dashboard5.png" alt="Team Communications Feed" width="100%">
+  <em>Comms - Live team feed with updates, insights, and blocker tracking</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard6.png" alt="Analytics Dashboard" width="100%">
-  <em>Analytics - Mission metrics and performance insights</em>
+  <img src="./img/dashboard6.png" alt="Artifacts Browser" width="100%">
+  <em>Artifacts - Browse generated outputs across all modules</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard7.png" alt="Setup Wizard" width="100%">
-  <em>Setup Wizard - Initialize workspaces from natural language</em>
+  <img src="./img/dashboard7.png" alt="Artifact File Viewer" width="100%">
+  <em>File Viewer - Read artifact contents with syntax highlighting</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard8.png" alt="Settings Panel" width="100%">
-  <em>Settings - Configure paths and Agent Teams integration</em>
+  <img src="./img/dashboard8.png" alt="Setup Page" width="100%">
+  <em>Setup - Environment readiness checks and one-click workspace creation</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard9.png" alt="Summary View" width="100%">
-  <em>Summary - Mission results and key insights</em>
+  <img src="./img/dashboard9.png" alt="Settings Panel" width="100%">
+  <em>Settings - Configure workspace defaults, paths, and Claude Agent Teams integration</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard10.png" alt="Workspace Selector" width="100%">
-  <em>Workspace Management - Switch between active missions</em>
+  <img src="./img/dashboard10.png" alt="Help Guide" width="100%">
+  <em>Help - Operator quickstart with 90-second workflow guide</em>
 </p>
 
 <p align="center">
-  <img src="./img/dashboard11.png" alt="Help Documentation" width="100%">
-  <em>Help - In-app documentation and quick start guides</em>
+  <img src="./img/dashboard11.png" alt="Workspace Selector" width="100%">
+  <em>Workspace Switcher - Navigate between active missions with search and filters</em>
 </p>
 
 </details>
