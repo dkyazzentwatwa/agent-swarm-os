@@ -5,6 +5,8 @@ node_modules/
 dist/
 dashboard/frontend/src-tauri/target/
 dashboard/frontend/src-tauri/gen/
+dashboard/frontend/dist/
+dashboard/backend/dist/
 
 # Environment variables
 .env
@@ -12,9 +14,13 @@ dashboard/frontend/src-tauri/gen/
 
 # Logs
 *.log
+dashboard/backend/logs/
 
 # OS files
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
 
 # Test coverage
 coverage/
@@ -24,10 +30,12 @@ coverage/
 .idea/
 *.swp
 *.swo
+*~
 
 # Temporary files
 tmp/
 .tmp/
+*.tmp
 
 # Personal workspaces and artifacts
 workspaces/
@@ -35,5 +43,42 @@ workspaces/
 artifacts/personal/
 *.personal.*
 
-# Development archives
-docs/development-archive/
+# User-specific app settings
+.agentsquad.desktop-settings.json
+.agentsquad.*.json
+
+# Claude CLI data (user-specific)
+.claude/
+!.claude/.gitkeep
+
+# Documentation (user-specific plans and notes)
+docs/
+AGENTS.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+
+# Rust
+Cargo.lock
+target/
+
+# macOS
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+desktop.ini
+$RECYCLE.BIN/
+
+# Lock files (platform-specific)
+*.lock
+!package-lock.json
+!Cargo.lock

@@ -2396,6 +2396,7 @@ async fn open_terminal_with_command(
     cwd: Option<String>,
 ) -> Result<Value, String> {
     let config = current_config(&state);
+    let settings = read_settings(&state);
     let command_text = command.trim();
 
     if command_text.is_empty() {
@@ -2407,7 +2408,16 @@ async fn open_terminal_with_command(
         .unwrap_or_else(|| config.project_root.clone());
 
     // Build the full command to run in terminal
-    let full_command = format!("cd '{}' && {}", normalize_slashes(&working_dir), command_text);
+    // Add CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS env var if enabled in settings
+    let full_command = if settings.claude_agent_teams_env.unwrap_or(true) {
+        format!(
+            "cd '{}' && CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 {}",
+            normalize_slashes(&working_dir),
+            command_text
+        )
+    } else {
+        format!("cd '{}' && {}", normalize_slashes(&working_dir), command_text)
+    };
 
     // Platform-specific terminal opening
     #[cfg(target_os = "macos")]

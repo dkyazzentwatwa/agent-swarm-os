@@ -44,9 +44,33 @@ export default function Help() {
         description="Operator quickstart and recovery guide"
       />
 
-      <Panel title="Setup Center">
+      <Panel title="Quickstart (One-Click Workflow)" collapsible defaultCollapsed={false} storageKey="help-panel-quickstart">
+        <div className="space-y-3 text-sm text-[var(--text-secondary)]">
+          <div className="rounded-md border border-border bg-[var(--surface-2)] p-3">
+            <p className="font-semibold text-[var(--text-primary)] mb-2">✨ New streamlined workflow (recommended)</p>
+            <ol className="space-y-2 list-decimal list-inside">
+              <li>Go to <a href="#/setup" className="text-blue-400 hover:underline">Setup</a> page → Create or select workspace</li>
+              <li>Go to <a href="#/settings" className="text-blue-400 hover:underline">Settings</a> page → "Run Claude from App" panel</li>
+              <li>Click <strong>"Copy workspace prompt"</strong> (copies kickoff prompt to clipboard)</li>
+              <li>Click <strong>"Run kickoff command"</strong> (opens Terminal with Claude CLI ready)</li>
+              <li>Paste prompt (Cmd+V) into Claude → Mission starts!</li>
+            </ol>
+            <p className="mt-3 text-xs">
+              💡 <strong>Tip:</strong> Edit your workspace prompt in Settings → "Workspace Kickoff Prompt" panel before running.
+            </p>
+          </div>
+
+          <div className="rounded-md border border-amber-500/30 bg-amber-500/5 p-3">
+            <p className="font-semibold text-amber-300 mb-2">⚡ One-click alternative</p>
+            <p>Click <strong>"Run workspace kickoff (no terminal)"</strong> to execute headlessly with the saved prompt file.</p>
+            <p className="text-xs mt-1">Uses <code>.agentsquad/kickoff-prompt.txt</code> automatically.</p>
+          </div>
+        </div>
+      </Panel>
+
+      <Panel title="Setup Center" collapsible defaultCollapsed={true} storageKey="help-panel-setup">
         <div className="flex flex-wrap items-center gap-2 text-sm text-[var(--text-secondary)]">
-          <p>Use the new Setup page for Agent Teams readiness checks and one-click workspace creation.</p>
+          <p>Use the Setup page for Agent Teams readiness checks and one-click workspace creation.</p>
           <a
             href="#/setup"
             className="rounded-md border border-border px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:bg-[var(--interactive-hover)]"
@@ -56,9 +80,9 @@ export default function Help() {
         </div>
       </Panel>
 
-      <Panel title="Operator Quickstart (90 seconds)">
+      <Panel title="Manual Workflow (Terminal Commands)" collapsible defaultCollapsed={true} storageKey="help-panel-manual">
         <div className="space-y-2 text-sm text-[var(--text-secondary)]">
-          <p>1. Initialize workspace, 2. Start dashboard, 3. Start teammate mode, 4. Paste kickoff prompt.</p>
+          <p className="mb-2">Traditional command-line workflow for advanced users:</p>
           <CommandRow title="Initialize workspace" command={initCommand} />
           <CommandRow title="Start desktop app" command={dashboardCommand} />
           <CommandRow title="Legacy web dashboard (optional)" command="npm run start" />
@@ -67,8 +91,44 @@ export default function Help() {
       </Panel>
 
       <Panel
-        title="Claude Kickoff Prompt"
-        description="Paste this into Claude to connect to the selected workspace"
+        title="Settings Features"
+        description="New Settings page capabilities for streamlined mission control"
+        collapsible
+        defaultCollapsed={true}
+        storageKey="help-panel-settings"
+      >
+        <div className="space-y-3 text-sm text-[var(--text-secondary)]">
+          <div className="rounded-md border border-border bg-[var(--surface-2)] p-3">
+            <p className="font-semibold text-[var(--text-primary)] mb-1">Run Claude from App</p>
+            <ul className="space-y-1 list-disc list-inside text-xs">
+              <li><strong>Copy workspace prompt</strong> - One-click copy of kickoff prompt to clipboard</li>
+              <li><strong>Run kickoff command</strong> - Opens Terminal.app with Claude CLI ready (includes env vars)</li>
+              <li><strong>Run workspace kickoff (no terminal)</strong> - Headless execution with saved prompt file</li>
+            </ul>
+          </div>
+
+          <div className="rounded-md border border-border bg-[var(--surface-2)] p-3">
+            <p className="font-semibold text-[var(--text-primary)] mb-1">Workspace Kickoff Prompt</p>
+            <ul className="space-y-1 list-disc list-inside text-xs">
+              <li>Edit <code>.agentsquad/kickoff-prompt.txt</code> directly in the app</li>
+              <li>Save changes instantly</li>
+              <li>Reload from file to discard unsaved edits</li>
+            </ul>
+          </div>
+
+          <div className="rounded-md border border-border bg-[var(--surface-2)] p-3">
+            <p className="font-semibold text-[var(--text-primary)] mb-1">Collapsible Panels</p>
+            <p className="text-xs">Click any panel header to expand/collapse. State persists across sessions.</p>
+          </div>
+        </div>
+      </Panel>
+
+      <Panel
+        title="Default Kickoff Prompt (Reference)"
+        description="Standard prompt structure for workspace missions"
+        collapsible
+        defaultCollapsed={true}
+        storageKey="help-panel-kickoff-prompt"
       >
         <div className="mb-2 flex justify-end">
           <button
@@ -97,7 +157,12 @@ Then:
         </pre>
       </Panel>
 
-      <Panel title="Keyboard Shortcuts">
+      <Panel
+        title="Keyboard Shortcuts"
+        collapsible
+        defaultCollapsed={true}
+        storageKey="help-panel-shortcuts"
+      >
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
           {SHORTCUTS.map((shortcut) => (
             <div key={shortcut.keys} className="flex items-center justify-between rounded-md border border-border px-3 py-2">
@@ -108,7 +173,12 @@ Then:
         </div>
       </Panel>
 
-      <Panel title="Recovery Flows">
+      <Panel
+        title="Recovery Flows"
+        collapsible
+        defaultCollapsed={true}
+        storageKey="help-panel-recovery"
+      >
         <div className="space-y-2 text-sm text-[var(--text-secondary)]">
           <div className="rounded-md border border-border bg-[var(--surface-2)] p-3">
             <p className="font-medium text-[var(--text-primary)]">Stale dashboard</p>
