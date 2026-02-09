@@ -22,9 +22,10 @@ class FileLock {
     this.lockTimeout = 30000;
 
     // Cleanup interval (check for stale locks every 5 seconds)
+    // Use unref() to prevent this interval from keeping the process alive during tests
     this.cleanupInterval = setInterval(() => {
       this.cleanupStaleLocks();
-    }, 5000);
+    }, 5000).unref();
   }
 
   /**
