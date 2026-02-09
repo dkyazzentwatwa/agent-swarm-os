@@ -10,6 +10,68 @@ Agent Swarm OS is a Tauri desktop app for managing Claude Code Agent Teams in sw
 
 It initializes a mission workspace, synthesizes a domain-specific team from your topic using Claude CLI, scaffolds prompts/tasks/modules, and provides a live dashboard for mission execution.
 
+## 📸 Product Showcase
+
+<p align="center">
+  <img src="./img/dashboard1.png" alt="Mission Control Dashboard" width="100%">
+  <em>Mission Control - Real-time agent coordination and task monitoring</em>
+</p>
+
+<details>
+<summary><b>View More Screenshots</b></summary>
+
+<p align="center">
+  <img src="./img/dashboard2.png" alt="Agent Status View" width="100%">
+  <em>Agent Status - Monitor individual agent activity and assignments</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard3.png" alt="Task Management" width="100%">
+  <em>Task Management - Track progress across workflow lanes</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard4.png" alt="Team Communications" width="100%">
+  <em>Team Feed - Live updates and insights from agents</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard5.png" alt="Artifacts Gallery" width="100%">
+  <em>Artifacts - Browse deliverables by module</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard6.png" alt="Analytics Dashboard" width="100%">
+  <em>Analytics - Mission metrics and performance insights</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard7.png" alt="Setup Wizard" width="100%">
+  <em>Setup Wizard - Initialize workspaces from natural language</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard8.png" alt="Settings Panel" width="100%">
+  <em>Settings - Configure paths and Agent Teams integration</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard9.png" alt="Summary View" width="100%">
+  <em>Summary - Mission results and key insights</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard10.png" alt="Workspace Selector" width="100%">
+  <em>Workspace Management - Switch between active missions</em>
+</p>
+
+<p align="center">
+  <img src="./img/dashboard11.png" alt="Help Documentation" width="100%">
+  <em>Help - In-app documentation and quick start guides</em>
+</p>
+
+</details>
+
 ## Claude Agent Teams (Required)
 
 This project expects Claude Agent Teams to be enabled for all runs.
