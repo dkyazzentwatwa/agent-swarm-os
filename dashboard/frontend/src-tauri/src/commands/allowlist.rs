@@ -210,6 +210,10 @@ impl AllowedCommand {
             "--teammate-mode",
             "--project",
             "--config",
+            "--dangerously-skip-permissions",
+            "-p", "--prompt",
+            "--cwd",
+            "-m", "--model",
         ];
 
         for arg in args {

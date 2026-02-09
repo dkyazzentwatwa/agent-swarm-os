@@ -89,6 +89,33 @@ export async function runSwarmKickoff(workspaceId) {
   return invoke("run_swarm_kickoff", { workspaceId });
 }
 
+export async function openTerminalWithCommand(command, cwd = null) {
+  if (!isTauriRuntime()) {
+    return { ok: false, error: "Open terminal requires Tauri runtime." };
+  }
+
+  const invoke = await getInvoke();
+  return invoke("open_terminal_with_command", { command, cwd });
+}
+
+export async function getWorkspaceKickoffPrompt(workspaceId) {
+  if (!isTauriRuntime()) {
+    return { ok: false, error: "Get workspace prompt requires Tauri runtime." };
+  }
+
+  const invoke = await getInvoke();
+  return invoke("get_workspace_kickoff_prompt", { workspaceId });
+}
+
+export async function saveWorkspaceKickoffPrompt(workspaceId, prompt) {
+  if (!isTauriRuntime()) {
+    return { ok: false, error: "Save workspace prompt requires Tauri runtime." };
+  }
+
+  const invoke = await getInvoke();
+  return invoke("save_workspace_kickoff_prompt", { workspaceId, prompt });
+}
+
 export function isTauri() {
   return isTauriRuntime();
 }

@@ -3,7 +3,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Panel } from "@/components/ui/Panel";
 import { DeleteWorkspaceModal } from "@/components/DeleteWorkspaceModal";
-import { getAppSettings, runClaudeCommand, runSwarmKickoff, saveAppSettings, selectDirectory, isTauri, deleteWorkspace } from "@/lib/transport";
+import { getAppSettings, runClaudeCommand, runSwarmKickoff, openTerminalWithCommand, getWorkspaceKickoffPrompt, saveWorkspaceKickoffPrompt, saveAppSettings, selectDirectory, isTauri, deleteWorkspace } from "@/lib/transport";
 
 function copyText(text) {
   return navigator.clipboard.writeText(text).catch(() => {
@@ -25,6 +25,9 @@ export default function Settings() {
   const [settingsPath, setSettingsPath] = useState("");
   const [effectiveConfig, setEffectiveConfig] = useState({});
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [workspacePrompt, setWorkspacePrompt] = useState("");
+  const [promptLoading, setPromptLoading] = useState(false);
+  const [promptSaving, setPromptSaving] = useState(false);
   const [form, setForm] = useState({
     teamName: "",
     workspacesDir: "",
@@ -70,6 +73,38 @@ export default function Settings() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!workspaceId) {
+      setWorkspacePrompt("");
+      return;
+    }
+
+    let cancelled = false;
+    const loadPrompt = async () => {
+      setPromptLoading(true);
+      try {
+        const payload = await getWorkspaceKickoffPrompt(workspaceId);
+        if (cancelled) return;
+        if (payload.ok && payload.prompt) {
+          setWorkspacePrompt(payload.prompt);
+        } else {
+          setWorkspacePrompt("");
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setWorkspacePrompt("");
+        }
+      } finally {
+        if (!cancelled) setPromptLoading(false);
+      }
+    };
+
+    loadPrompt();
+    return () => {
+      cancelled = true;
+    };
+  }, [workspaceId]);
 
   const kickoffPreview = useMemo(() => {
     let command = form.kickoffCommand || "claude --teammate-mode in-process";
@@ -153,7 +188,13 @@ export default function Settings() {
         description="Configure directories and Claude defaults so users can initialize and start swarms entirely from the app"
       />
 
-      <Panel title="Workspace Defaults" description="These values become the app runtime config and init wizard defaults">
+      <Panel
+        title="Workspace Defaults"
+        description="These values become the app runtime config and init wizard defaults"
+        collapsible
+        defaultCollapsed={false}
+        storageKey="settings-panel-workspace-defaults"
+      >
         {loading ? <p className="text-sm text-[var(--text-secondary)]">Loading settings...</p> : null}
         {!loading ? (
           <form className="space-y-3" onSubmit={onSave}>
@@ -312,7 +353,13 @@ export default function Settings() {
         ) : null}
       </Panel>
 
-      <Panel title="Run Claude from App" description="Use saved command defaults so users can stay inside the app">
+      <Panel
+        title="Run Claude from App"
+        description="Use saved command defaults so users can stay inside the app"
+        collapsible
+        defaultCollapsed={false}
+        storageKey="settings-panel-run-claude"
+      >
         <div className="space-y-3 text-sm">
           <p className="text-[var(--text-secondary)]">
             Current workspace: <code>{workspaceId || "none selected"}</code>
@@ -326,8 +373,49 @@ export default function Settings() {
               {running ? "Running..." : "Test Claude CLI"}
             </button>
             <button
+              disabled={running || !workspaceId}
+              onClick={async () => {
+                setRunning(true);
+                setResult(null);
+                try {
+                  const payload = await getWorkspaceKickoffPrompt(workspaceId);
+                  if (payload.ok && payload.prompt) {
+                    await copyText(payload.prompt);
+                    setResult({
+                      ok: true,
+                      stdout: `Workspace prompt copied to clipboard!\n\nPrompt file: ${payload.promptPath}\n\nLength: ${payload.prompt.length} characters`
+                    });
+                  } else {
+                    setResult(payload);
+                  }
+                } catch (error) {
+                  setResult({ ok: false, stderr: String(error?.message || error) });
+                } finally {
+                  setRunning(false);
+                }
+              }}
+              className="rounded-md border border-border px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:bg-[var(--interactive-hover)] disabled:opacity-60"
+              title={!workspaceId ? "Select a workspace first" : "Copy kickoff prompt to clipboard"}
+            >
+              {running ? "Copying..." : "Copy workspace prompt"}
+            </button>
+            <button
               disabled={running}
-              onClick={() => onRun(kickoffPreview)}
+              onClick={async () => {
+                setRunning(true);
+                setResult(null);
+                try {
+                  const payload = await openTerminalWithCommand(
+                    kickoffPreview,
+                    effectiveConfig?.projectRoot || null
+                  );
+                  setResult(payload);
+                } catch (error) {
+                  setResult({ ok: false, stderr: String(error?.message || error) });
+                } finally {
+                  setRunning(false);
+                }
+              }}
               className="rounded-md border border-border bg-[var(--interactive-active)] px-3 py-1.5 text-xs text-[var(--text-primary)] disabled:opacity-60"
             >
               Run kickoff command
@@ -354,7 +442,88 @@ export default function Settings() {
         </div>
       </Panel>
 
-      <Panel title="Effective Runtime Config" description="These are the currently active paths used by the desktop backend">
+      {workspaceId && (
+        <Panel
+          title="Workspace Kickoff Prompt"
+          description="Edit the initial prompt that starts the mission for this workspace"
+          collapsible
+          defaultCollapsed={false}
+          storageKey="settings-panel-workspace-prompt"
+        >
+          {promptLoading ? (
+            <p className="text-sm text-[var(--text-secondary)]">Loading prompt...</p>
+          ) : (
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs uppercase tracking-wide text-[var(--text-secondary)] mb-2">
+                  Kickoff Prompt (.agentsquad/kickoff-prompt.txt)
+                </label>
+                <textarea
+                  value={workspacePrompt}
+                  onChange={(e) => setWorkspacePrompt(e.target.value)}
+                  rows={12}
+                  className="w-full rounded-md border border-border bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--text-primary)] font-mono"
+                  placeholder="Enter the initial prompt for this workspace mission..."
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  disabled={promptSaving || !workspacePrompt.trim()}
+                  onClick={async () => {
+                    setPromptSaving(true);
+                    setResult(null);
+                    try {
+                      const payload = await saveWorkspaceKickoffPrompt(workspaceId, workspacePrompt);
+                      setResult({
+                        ok: payload.ok,
+                        stdout: payload.ok ? `Kickoff prompt saved successfully!\n\nFile: ${payload.promptPath}` : null,
+                        stderr: payload.ok ? null : payload.error || "Failed to save prompt"
+                      });
+                    } catch (error) {
+                      setResult({ ok: false, stderr: String(error?.message || error) });
+                    } finally {
+                      setPromptSaving(false);
+                    }
+                  }}
+                  className="rounded-md border border-border bg-[var(--interactive-active)] px-3 py-1.5 text-xs text-[var(--text-primary)] disabled:opacity-60"
+                >
+                  {promptSaving ? "Saving..." : "Save prompt"}
+                </button>
+                <button
+                  type="button"
+                  disabled={promptSaving}
+                  onClick={async () => {
+                    setPromptLoading(true);
+                    try {
+                      const payload = await getWorkspaceKickoffPrompt(workspaceId);
+                      if (payload.ok && payload.prompt) {
+                        setWorkspacePrompt(payload.prompt);
+                        setResult({ ok: true, stdout: "Prompt reloaded from file" });
+                      }
+                    } catch (error) {
+                      setResult({ ok: false, stderr: String(error?.message || error) });
+                    } finally {
+                      setPromptLoading(false);
+                    }
+                  }}
+                  className="rounded-md border border-border px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:bg-[var(--interactive-hover)] disabled:opacity-60"
+                >
+                  Reload from file
+                </button>
+              </div>
+            </div>
+          )}
+        </Panel>
+      )}
+
+      <Panel
+        title="Effective Runtime Config"
+        description="These are the currently active paths used by the desktop backend"
+        collapsible
+        defaultCollapsed={true}
+        storageKey="settings-panel-runtime-config"
+      >
         <div className="space-y-2 text-xs text-[var(--text-secondary)]">
           <p>Project root: <code>{effectiveConfig?.projectRoot || "N/A"}</code></p>
           <p>Team name: <code>{effectiveConfig?.teamName || "N/A"}</code></p>
@@ -366,7 +535,13 @@ export default function Settings() {
       </Panel>
 
       {workspaceId && (
-        <Panel title="Danger Zone" description="Permanent workspace operations">
+        <Panel
+          title="Danger Zone"
+          description="Permanent workspace operations"
+          collapsible
+          defaultCollapsed={true}
+          storageKey="settings-panel-danger-zone"
+        >
           <div className="space-y-3 rounded-md border border-red-500/30 bg-red-500/5 p-4">
             <div>
               <p className="text-sm font-semibold text-[var(--text-primary)]">Delete Current Workspace</p>

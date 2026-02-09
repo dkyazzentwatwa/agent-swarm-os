@@ -2303,6 +2303,152 @@ async fn run_swarm_kickoff(
     }))
 }
 
+#[tauri::command]
+async fn get_workspace_kickoff_prompt(
+    state: State<'_, AppState>,
+    workspace_id: String,
+) -> Result<Value, String> {
+    let config = current_config(&state);
+    let workspace = workspace_id.trim();
+
+    if workspace.is_empty() {
+        return Err("workspaceId is required".to_string());
+    }
+
+    let workspace_path = config.workspaces_dir.join(workspace);
+    if !workspace_path.exists() {
+        return Err(format!(
+            "Workspace not found: {}",
+            normalize_slashes(&workspace_path)
+        ));
+    }
+
+    let kickoff_path = workspace_path.join(".agentsquad/kickoff-prompt.txt");
+    if !kickoff_path.exists() {
+        return Err(format!(
+            "Kickoff prompt not found: {}",
+            normalize_slashes(&kickoff_path)
+        ));
+    }
+
+    let kickoff_prompt = fs::read_to_string(&kickoff_path)
+        .map_err(|error| format!("Failed to read kickoff prompt: {error}"))?;
+
+    if kickoff_prompt.trim().is_empty() {
+        return Err("Kickoff prompt is empty".to_string());
+    }
+
+    Ok(json!({
+        "ok": true,
+        "prompt": kickoff_prompt,
+        "promptPath": normalize_slashes(&kickoff_path),
+        "workspaceId": workspace,
+    }))
+}
+
+#[tauri::command]
+async fn save_workspace_kickoff_prompt(
+    state: State<'_, AppState>,
+    workspace_id: String,
+    prompt: String,
+) -> Result<Value, String> {
+    let config = current_config(&state);
+    let workspace = workspace_id.trim();
+
+    if workspace.is_empty() {
+        return Err("workspaceId is required".to_string());
+    }
+
+    if prompt.trim().is_empty() {
+        return Err("Prompt cannot be empty".to_string());
+    }
+
+    let workspace_path = config.workspaces_dir.join(workspace);
+    if !workspace_path.exists() {
+        return Err(format!(
+            "Workspace not found: {}",
+            normalize_slashes(&workspace_path)
+        ));
+    }
+
+    let agentsquad_dir = workspace_path.join(".agentsquad");
+    if !agentsquad_dir.exists() {
+        fs::create_dir_all(&agentsquad_dir)
+            .map_err(|error| format!("Failed to create .agentsquad directory: {error}"))?;
+    }
+
+    let kickoff_path = agentsquad_dir.join("kickoff-prompt.txt");
+    fs::write(&kickoff_path, prompt.as_bytes())
+        .map_err(|error| format!("Failed to write kickoff prompt: {error}"))?;
+
+    Ok(json!({
+        "ok": true,
+        "message": "Kickoff prompt saved successfully",
+        "promptPath": normalize_slashes(&kickoff_path),
+        "workspaceId": workspace,
+    }))
+}
+
+#[tauri::command]
+async fn open_terminal_with_command(
+    state: State<'_, AppState>,
+    command: String,
+    cwd: Option<String>,
+) -> Result<Value, String> {
+    let config = current_config(&state);
+    let command_text = command.trim();
+
+    if command_text.is_empty() {
+        return Err("Command cannot be empty".to_string());
+    }
+
+    let working_dir = clean_optional_string(cwd)
+        .map(|value| expand_user_path(&value))
+        .unwrap_or_else(|| config.project_root.clone());
+
+    // Build the full command to run in terminal
+    let full_command = format!("cd '{}' && {}", normalize_slashes(&working_dir), command_text);
+
+    // Platform-specific terminal opening
+    #[cfg(target_os = "macos")]
+    {
+        // Use AppleScript to open Terminal.app with the command
+        let applescript = format!(
+            r#"tell application "Terminal"
+                activate
+                do script "{}"
+            end tell"#,
+            full_command.replace("\"", "\\\"")
+        );
+
+        let output = Command::new("osascript")
+            .arg("-e")
+            .arg(&applescript)
+            .output()
+            .await
+            .map_err(|error| format!("Failed to open terminal: {error}"))?;
+
+        if !output.status.success() {
+            return Err(format!(
+                "Terminal opening failed: {}",
+                String::from_utf8_lossy(&output.stderr)
+            ));
+        }
+
+        Ok(json!({
+            "ok": true,
+            "message": "Terminal opened successfully",
+            "command": command_text,
+            "cwd": normalize_slashes(&working_dir),
+        }))
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    {
+        Err("Terminal opening is only supported on macOS currently".to_string())
+    }
+}
+
 fn main() {
     let config = build_config();
     let settings = load_app_settings(&config);
@@ -2329,7 +2475,10 @@ fn main() {
             get_app_settings,
             save_app_settings,
             run_claude_command,
-            run_swarm_kickoff
+            run_swarm_kickoff,
+            get_workspace_kickoff_prompt,
+            save_workspace_kickoff_prompt,
+            open_terminal_with_command
         ])
         .run(tauri::generate_context!())
         .expect("error while running Agent Swarm OS");

@@ -7,5 +7,5 @@
   "defaultAgents": 6,
   "teammateMode": "in-process",
   "claudeAgentTeamsEnv": true,
-  "kickoffCommand": "claude --teammate-mode in-process --dangerously-skip-permissions"
+  "kickoffCommand": "FORCE CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --teammate-mode in-process --dangerously-skip-permissions"
 }
