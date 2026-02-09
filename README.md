@@ -69,6 +69,20 @@ Optional flags:
 - `--team-name <name>`
 - `--wizard`
 
+### First Launch (Desktop App)
+
+When you first launch the Tauri desktop app, you'll be prompted to select your workspace directory:
+
+1. Click "📁 Browse for Workspace Directory"
+2. Navigate to where you keep (or want to keep) your Agent Squad workspaces
+3. Select the folder and click "Continue"
+
+**Don't have workspaces yet?** Just select an empty folder - you can create your first workspace using the Setup wizard after configuration.
+
+**Settings are stored in:** `.agentsquad.desktop-settings.json` in the project root (or wherever the app detects as project root)
+
+**To reconfigure:** Delete the settings file or manually edit it, then restart the app.
+
 ## Dashboard Development
 
 ### Quick Start

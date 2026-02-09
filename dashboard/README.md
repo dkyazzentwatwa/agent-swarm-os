@@ -214,6 +214,54 @@ npm run init -- -t "your mission topic" -a 6
 
 ---
 
+## Desktop App (Tauri)
+
+The dashboard can run as a standalone desktop application using Tauri.
+
+### Building
+
+```bash
+cd dashboard/frontend
+npm run tauri:build
+```
+
+Output:
+- macOS: `src-tauri/target/release/bundle/macos/Agent Swarm OS.app`
+- DMG installer: `src-tauri/target/release/bundle/dmg/Agent Swarm OS_1.0.0_aarch64.dmg`
+
+### First Launch
+
+On first launch, the app prompts you to select your workspace directory. This setting persists in `.agentsquad.desktop-settings.json`.
+
+### Configuration
+
+The app uses the same settings system as dev mode (Settings page), but stores settings in the project root rather than relying on environment variables.
+
+**Settings file location:** `<project-root>/.agentsquad.desktop-settings.json`
+
+**Required setting:** `workspacesDir` - must point to a valid directory
+
+**Optional settings:**
+- `teamsDir` - Claude teams directory (defaults to `~/.claude/teams/<teamName>`)
+- `tasksDir` - Tasks directory (defaults to `~/.claude/todos`)
+- `teamName` - Team name (defaults to "agent-squad-team")
+
+### Troubleshooting
+
+**Modal appears on every launch:**
+- Your `workspacesDir` setting points to a directory that doesn't exist or was deleted
+- Solution: Select a valid directory or create the missing directory
+
+**App shows "No workspaces found":**
+- Your workspace directory is empty
+- Solution: Use the Setup wizard to create your first workspace
+
+**Settings not persisting:**
+- Check file permissions on `.agentsquad.desktop-settings.json`
+- Check that the file is not being deleted between launches
+
+---
+
 ## API Endpoints
 
 ### Workspace
