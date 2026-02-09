@@ -314,15 +314,6 @@ fn settings_file_path(config: &AppConfig) -> PathBuf {
     config.project_root.join(".agentsquad.desktop-settings.json")
 }
 
-fn is_workspaces_dir_valid(dir: &Option<String>) -> bool {
-    match dir {
-        None => false,
-        Some(path_str) => {
-            let expanded = expand_user_path(path_str);
-            expanded.exists() && expanded.is_dir()
-        }
-    }
-}
 
 fn load_app_settings(config: &AppConfig) -> AppSettings {
     let path = settings_file_path(config);
@@ -2150,8 +2141,10 @@ async fn init_workspace(
 
 #[tauri::command]
 fn get_app_settings(state: State<'_, AppState>) -> Result<Value, String> {
-    let settings = read_settings(&state);
-    let needs_configuration = !is_workspaces_dir_valid(&settings.workspaces_dir);
+    let config = current_config(&state);
+
+    // Check if effective workspaces directory exists (including fallback to project_root/workspaces)
+    let needs_configuration = !config.workspaces_dir.exists() || !config.workspaces_dir.is_dir();
 
     let mut response = endpoint_settings(&state);
     if let Some(obj) = response.as_object_mut() {

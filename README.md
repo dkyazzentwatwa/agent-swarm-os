@@ -27,6 +27,64 @@ Reference: https://code.claude.com/docs/en/agent-teams.md
 - Rust toolchain (`rustc` + `cargo`)
 - Claude CLI installed and authenticated (`claude --help` works)
 
+#### Installing Prerequisites
+
+**Node.js 18+**
+
+Check if already installed:
+```bash
+node --version  # Should be v18.0.0 or higher
+npm --version
+```
+
+If not installed:
+- **macOS**: `brew install node` or download from [nodejs.org](https://nodejs.org/)
+- **Linux**: `curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt-get install -y nodejs`
+- **Windows**: Download installer from [nodejs.org](https://nodejs.org/)
+
+**Rust Toolchain (rustc + cargo)**
+
+Check if already installed:
+```bash
+rustc --version
+cargo --version
+```
+
+If not installed:
+```bash
+# All platforms (recommended)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Follow prompts, then reload your shell:
+source $HOME/.cargo/env
+```
+
+Alternative installation methods:
+- **macOS**: `brew install rust`
+- **Windows**: Download from [rustup.rs](https://rustup.rs/)
+
+**Claude CLI**
+
+Check if already installed:
+```bash
+claude --version
+```
+
+If not installed:
+```bash
+# macOS/Linux
+curl -fsSL https://cli.anthropic.com/install.sh | sh
+
+# Or with npm (all platforms)
+npm install -g @anthropic-ai/claude-cli
+
+# Verify installation
+claude --version
+
+# Authenticate (required on first use)
+claude auth login
+```
+
 ### 1) Install dependencies
 
 ```bash
