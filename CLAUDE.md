@@ -33,6 +33,14 @@ Use `workspace.json` as the source of truth for:
 - workflow lanes
 - comms settings
 
+## Directory Safety
+
+Before creating new directories or workspaces:
+1. **Confirm the correct working directory** with the user
+2. Default to operating within the current project structure
+3. Never create workspaces outside `workspaces/` without explicit confirmation
+4. Use `pwd` to verify location before spawning agents
+
 ## Ownership Rules
 
 - Each agent owns its assigned tasks and module outputs.
@@ -74,6 +82,12 @@ Use:
 - `insight` for reusable findings
 - `blocker` for dependencies/issues
 - Post frequently so the dashboard stays active (updates drive "live" status).
+
+## Output Preferences
+
+- When outputting specifications, reports, or analysis documents, always write them to a `.md` file unless explicitly told to display in chat.
+- For multi-part deliverables, create a structured folder with an index file.
+- Always confirm output file paths before writing.
 
 ## Agent Squad Skills (Recommended)
 
@@ -194,6 +208,31 @@ Some agents may show "failed" status with errors like `classifyHandoffIfNeeded i
 3. If deliverables exist, proceed to next phase despite error status
 
 **For agent orchestration tasks:** Gracefully handle agent cleanup errors - log them but don't let them block deliverable completion. If an agent fails with cleanup errors but produced its outputs, restart it only if deliverables are incomplete or missing.
+
+### Agent Cleanup Error Recovery
+
+When agents fail with cleanup errors but produce deliverables:
+
+1. **Log the error** to team feed with type `insight`
+2. **Verify deliverables** exist before marking task complete
+3. **Do not restart** agents that produced output
+4. **Continue workflow** - cleanup errors are non-blocking
+5. **Document pattern** in progress file for session continuity
+
+## Progress Checkpointing (Long Sessions)
+
+For multi-phase missions or complex tasks:
+
+1. **Create checkpoints** after each major phase completes
+2. **Write progress to** `artifacts/progress/PROGRESS.md` with:
+   - Completed phases
+   - Current phase status
+   - Remaining work
+   - Blockers encountered
+3. **Post to team feed** at each checkpoint
+4. If session may end soon, prioritize completing current deliverable over starting new work
+
+This enables clean session handoffs and prevents lost progress.
 
 ## Dashboard Synchronization (CRITICAL)
 
